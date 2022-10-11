@@ -152,10 +152,15 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form action="{{url_for('logIn')}}" method="POST">
+    <form action="/login" method="POST">
         <h3>Login Here</h3>
+        {%if error %}
+        {%for err in error%}
+        <p style="color: red;">{{err}}</p>
+        {%endfor%}
+        {%endif%}
 
-        <label for="username">Username</label>
+        <label for=" username">Username</label>
         <input name="name" type="text" placeholder="UserName" id="username">
 
         <label for="password">Password</label>
