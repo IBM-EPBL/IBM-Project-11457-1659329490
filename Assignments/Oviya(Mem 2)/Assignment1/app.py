@@ -15,5 +15,7 @@ def about():
     return render_template('about.html')
 
 
+
+
 db.init_app(app)
 app.register_blueprint(auth.bp)

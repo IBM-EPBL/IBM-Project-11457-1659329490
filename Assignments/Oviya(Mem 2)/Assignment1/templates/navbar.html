@@ -13,8 +13,12 @@
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
-        <a href={{url_for("auth.login")}} class="btn btn-info my-2 my-sm-0 mr-2" role="button">Sign in</a>
-        <a href={{url_for("auth.register")}} class="btn btn-outline-info my-2 my-sm-0 mr-2" role="button">Sign up</a>
+        {% if not session['user_id'] %}
+        <a href={{url_for("auth.login")}} class="btn btn-outline-info my-2 my-sm-0 mr-2" role="button">Sign in</a>
+        <a href={{url_for("auth.register")}} class="btn btn-outline-warning my-2 my-sm-0 mr-2" role="button">Sign up</a>
+            {% else %}
+        <a href={{url_for("auth.logout")}} class="btn btn-outline-warning my-2 my-sm-0 mr-2" role="button">Logout</a>
+            {% endif %}
       </form>
     </div>
   </nav>
