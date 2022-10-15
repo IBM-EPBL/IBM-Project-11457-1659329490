@@ -68,6 +68,57 @@
             padding: 50px 35px;
         }
 
+        .Navbar {
+            position: relative;
+            z-index: 2;
+            background-color: rgba(255, 255, 255, 0.13);
+            position: absolute;
+            /* border-radius: 10px; */
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+            top: 0;
+            width: 100vw;
+            height: 7vh;
+            /* left: 10%; */
+            padding: 15px 5px;
+        }
+
+        .ul {
+            align-items: center;
+            float: right;
+            justify-content: center;
+            padding-right: 15px;
+
+            /* justify-content: space-between; */
+            /* align-items: center;
+            padding: 0 20px; */
+        }
+
+        li {
+            display: inline;
+            margin: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: white
+        }
+
+        .about-nav ul {
+            list-style: none;
+            float: right;
+        }
+
+        .about-nav li {
+            display: inline;
+            margin: 2rem;
+            color: #210708;
+            font-weight: bold;
+
+            font-size: 22px;
+        }
+
         form * {
             font-family: 'Poppins', sans-serif;
             color: #ffffff;
@@ -133,57 +184,6 @@
             text-align: center;
         }
 
-        .Navbar {
-            position: relative;
-            z-index: 2;
-            background-color: rgba(255, 255, 255, 0.13);
-            position: absolute;
-            /* border-radius: 10px; */
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
-            top: 0;
-            width: 100vw;
-            height: 7vh;
-            /* left: 10%; */
-            padding: 15px 5px;
-        }
-
-        .ul {
-            align-items: center;
-            float: right;
-            justify-content: center;
-            padding-right: 15px;
-
-            /* justify-content: space-between; */
-            /* align-items: center;
-            padding: 0 20px; */
-        }
-
-        li {
-            display: inline;
-            margin: 10px;
-        }
-
-        a {
-            text-decoration: none;
-            color: white
-        }
-
-        .about-nav ul {
-            list-style: none;
-            float: right;
-        }
-
-        .about-nav li {
-            display: inline;
-            margin: 2rem;
-            color: #210708;
-            font-weight: bold;
-
-            font-size: 22px;
-        }
-
         .social div:hover {
             background-color: rgba(255, 255, 255, 0.47);
         }
@@ -195,23 +195,28 @@
         .social i {
             margin-right: 4px;
         }
+
+        .Home-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 300px;
+            font-size: 50px;
+        }
     </style>
 </head>
 
 <body>
     <nav class="Navbar">
         <ul class="ul">
-
-            <a href="/">
-                <li>Home</li>
+            <!-- <a href="/about" class="about">
+                <li>About</li> -->
             </a>
-
             <a href="/login" class="login">
-                <li>Login</li>
+                <li>Log In</li>
             </a>
             <a href="/signup" class="SignUp">
                 <li>Sign Up</li>
-
             </a>
         </ul>
     </nav>
@@ -219,29 +224,10 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form action="/login" method="POST">
-        <h3>Login Here</h3>
-        {%if error %}
-        {%for err in error%}
-        <p style="color: red;">{{err}}</p>
-        {%endfor%}
-        {%endif%}
+    <div class="Home-text">
+        <h4 style="color: white"> Flask Assignment</h4>
+    </div>
 
-        <label for=" username">Username</label>
-        <input name="name" type="text" placeholder="UserName" id="username">
-
-        <label for="password">Password</label>
-        <input name="password" type="password" placeholder="Password" id="password">
-
-        <button>Log In</button>
-
-        <br>
-        <br>
-
-        <div>
-            <p style="color: white;">Don't have an account? <a href="/signup" style="color: blue;">Sign Up</a></p>
-        </div>
-    </form>
 </body>
 
 </html>

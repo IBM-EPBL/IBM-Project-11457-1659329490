@@ -1,11 +1,17 @@
-from flask import Flask,redirect,url_for,render_template,request
+from flask import Flask,redirect,url_for,render_template,request,session
 import sqlite3 as sql
+
+from requests import session
 
 app=Flask(__name__)
 
+@app.route('/home')
+def home1():
+    return render_template('home.html')
+
 @app.route("/")
 def home():
-    return render_template('Home.html')
+    return render_template('index.html')
 @app.route("/about")
 def about():
     return render_template('About.html')
