@@ -1,10 +1,39 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='css/style.css')}}"
+    />
+  </head>
+  <body>
+    <div id="about-layer"></div>
+    <nav class="about-nav">
+      <ul>
+        <a href="/"><li>Home</li></a>
+      </ul>
+    </nav>
 
-{% block content %}
+    <center>
+      <div class="about">
+        <div class="about-d">
+          <h1>Visit Our Online Shop</h1>
 
-    <div class="container d-flex justify-content-center flex-column">
-    <h1>About</h1>
-    <p>Exercitation voluptate ipsum cillum velit ex pariatur nostrud laboris pariatur adipisicing culpa qui. Mollit consectetur irure non deserunt pariatur laboris. Sunt ut ea deserunt pariatur incididunt. Sunt elit do aliquip Lorem eu duis deserunt nulla sunt velit do quis. Do est nisi officia non ad commodo tempor cillum sit ad. Tempor ea in reprehenderit ullamco non laboris est labore. Esse est nulla incididunt et. Consequat dolore excepteur nulla labore officia nostrud cupidatat tempor esse ex aliqua velit est proident. Anim nisi deserunt ea occaecat occaecat aliqua veniam voluptate est laborum voluptate est deserunt eu. Ipsum non aute elit non culpa consectetur commodo esse ex adipisicing fugiat. Sunt culpa nostrud velit non aliquip id cillum non. Esse sunt Lorem esse anim. Nulla do ipsum tempor ut aliquip culpa. Adipisicing consectetur anim adipisicing laborum exercitation. Pariatur non aliquip amet esse quis deserunt voluptate anim consectetur laboris ullamco. Minim occaecat pariatur ea et occaecat. Fugiat ipsum laboris laboris ipsum commodo dolor esse ex sunt. Quis deserunt occaecat voluptate exercitation tempor ipsum amet aliqua deserunt. Do ea in labore qui Lorem sit ipsum id ad nisi sint do consectetur dolore. Labore reprehenderit et laboris aliquip esse incididunt elit proident laboris id eu excepteur exercitation. Amet mollit est sit amet aliquip nulla incididunt mollit quis incididunt voluptate aute. Lorem anim do elit elit in culpa. Et officia culpa ad laborum consequat nisi aliqua Lorem elit proident cillum deserunt quis aute. Pariatur anim culpa esse nulla aute et eiusmod excepteur aliqua cupidatat dolor consectetur eiusmod cupidatat. Esse pariatur aliquip in laboris dolor ex consequat mollit incididunt dolor anim non Lorem. Do incididunt esse occaecat ullamco dolore irure dolor deserunt deserunt Lorem. Id occaecat veniam proident adipisicing ullamco. Lorem exercitation id duis minim qui in cillum nulla sint sit. Lorem nostrud culpa amet dolor laboris aliqua. Laborum non aute laboris ipsum quis culpa elit consequat Lorem commodo quis. Proident ut adipisicing aliquip labore in aliqua velit adipisicing sunt sint fugiat incididunt commodo. Incididunt consequat aute et irure dolor tempor culpa laborum cillum ea commodo laborum elit ipsum. Nisi officia commodo laborum dolor voluptate laborum aliquip deserunt in cupidatat aliquip.</p>
-    </div>
-
-{% endblock content %}
+          <p>
+            The Cake Shop offers something for everyone. This is a one of a kind
+            bakery, where the aroma of home-style baking weakens even the
+            strongest will. The Cake Shop offers a wide variety of freshly baked
+            goods daily; gourmet cookies, fresh apple cake, cheesecake slices,
+            chocolate eclairs, strawberry torte, pound cake, lemon bars,
+            decadent brownies, shortbread,and over 20 flavors of cupcakes that
+            no one can resist.
+          </p>
+        </div>
+      </div>
+    </center>
+  </body>
+</html>

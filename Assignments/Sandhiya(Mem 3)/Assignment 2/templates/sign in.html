@@ -1,0 +1,29 @@
+{% extends "sign_in_up.html"%} {% block sign%}
+<div class="sign">
+  <div class="s">
+    <h1>SIGN IN</h1>
+    <div style="margin-left: 40px">
+      {% if error%} {% for i in error%}
+      <li style="color: rgb(214, 14, 14); list-style: none">{{i}}</li>
+      {% endfor %} {% endif %}
+    </div>
+    <form action="{{url_for('sign_in')}}" method="post">
+      <div class="in">
+        <input placeholder="name" type="text" name="name" /><br />
+      </div>
+      <div class="in">
+        <input placeholder="password" type="password" name="password" /><br />
+      </div>
+      <div class="in">
+        <center><button>submit</button></center>
+      </div>
+    </form>
+    <p style="text-align: center">
+      create new account
+      <a style="text-decoration: none; color: #210708" href="/signup">
+        sign up</a
+      >
+    </p>
+  </div>
+</div>
+{% endblock %}

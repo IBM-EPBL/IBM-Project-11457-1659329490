@@ -1,0 +1,149 @@
+@import url("https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap");
+body {
+  background-image: url("../images/cake_back.jpeg");
+  background-repeat: no-repeat;
+  background-size: 100%;
+  margin: 0;
+  padding: 0;
+}
+#layer {
+  background-color: #210708bb;
+
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+#about-layer {
+  background-color: #21070870;
+
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.home-nav {
+  position: relative;
+  z-index: 1;
+}
+.home-nav a {
+  text-decoration: none;
+}
+.home-nav ul {
+  list-style: none;
+  float: right;
+}
+.home-nav li {
+  display: inline;
+  margin: 2rem;
+  color: #e9bead;
+  font-size: 22px;
+}
+.heading {
+  position: absolute;
+  z-index: 1;
+  margin-top: 100px;
+  width: 100%;
+}
+.heading h1 {
+  font-size: 100px;
+  color: #e9bead;
+  font-family: Irish Grover;
+  letter-spacing: 10px;
+}
+.heading p {
+  letter-spacing: 20px;
+  color: white;
+  font-size: 30px;
+  font-family: "Courier New", Courier, monospace;
+}
+.heading p {
+  color: white;
+  font-size: 30px;
+}
+.about-nav {
+  position: relative;
+  z-index: 2;
+}
+.about-nav a {
+  text-decoration: none;
+}
+.about-nav ul {
+  list-style: none;
+  float: right;
+}
+.about-nav li {
+  display: inline;
+  margin: 2rem;
+  color: #210708;
+  font-weight: bold;
+
+  font-size: 22px;
+}
+.about {
+  padding-top: 100px;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.about h1 {
+  font-family: Irish Grover;
+  font-size: 60px;
+}
+.about p {
+  line-height: 45px;
+  font-size: 25px;
+}
+.about-d {
+  background-color: #210708d6;
+  background-color: #e9beada6;
+  width: 60%;
+  padding: 40px;
+  color: #210708d6;
+}
+.sign {
+  margin-top: 150px;
+  width: 100%;
+  position: absolute;
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: #210708d6;
+}
+.s {
+  background-color: #e9beada6;
+  padding: 30px;
+  width: 25%;
+  border-radius: 20px;
+  font-weight: bold;
+}
+.sign h1 {
+  font-family: Irish Grover;
+  text-align: center;
+}
+.in {
+  padding: 10px;
+
+  width: inherit;
+  margin: 10px;
+}
+.in input {
+  width: 93%;
+  padding: 15px;
+  background-color: #210708bd;
+  color: #e9bead;
+  border-radius: 20px;
+  border: none;
+}
+.in input::placeholder {
+  color: #e9bead;
+}
+button {
+  padding: 10px;
+  color: #210708;
+  font-weight: bold;
+  border-radius: 20px;
+  border: none;
+  width: 25%;
+}
