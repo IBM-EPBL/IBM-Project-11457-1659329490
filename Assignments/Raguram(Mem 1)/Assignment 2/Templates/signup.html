@@ -3,7 +3,7 @@
 
 <head>
     <!-- Design by foolishdeveloper.com -->
-    <title>Glassmorphism login Form Tutorial in html css</title>
+    <title>Flask Assignment</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -66,6 +66,7 @@
             border: 2px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
             padding: 50px 35px;
+            padding-bottom: 100px;
         }
 
         form * {
@@ -133,6 +134,57 @@
             text-align: center;
         }
 
+        .Navbar {
+            position: relative;
+            z-index: 2;
+            background-color: rgba(255, 255, 255, 0.13);
+            position: absolute;
+            /* border-radius: 10px; */
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+            top: 0;
+            width: 100vw;
+            height: 7vh;
+            /* left: 10%; */
+            padding: 15px 5px;
+        }
+
+        .ul {
+            align-items: center;
+            float: right;
+            justify-content: center;
+            padding-right: 15px;
+
+            /* justify-content: space-between; */
+            /* align-items: center;
+            padding: 0 20px; */
+        }
+
+        li {
+            display: inline;
+            margin: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: white
+        }
+
+        .about-nav ul {
+            list-style: none;
+            float: right;
+        }
+
+        .about-nav li {
+            display: inline;
+            margin: 2rem;
+            color: #210708;
+            font-weight: bold;
+
+            font-size: 22px;
+        }
+
         .social div:hover {
             background-color: rgba(255, 255, 255, 0.47);
         }
@@ -148,12 +200,32 @@
 </head>
 
 <body>
+
+    <nav class="Navbar">
+        <ul class="ul">
+
+            <a href="/">
+                <li>Home</li>
+            </a>
+
+            <a href="/login" class="login">
+                <li>Login</li>
+            </a>
+            <a href="/signup" class="SignUp">
+                <li>Sign Up</li>
+
+            </a>
+        </ul>
+    </nav>
+
+
     <div class="background">
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
+
     <form action="/signup" method="POST">
-        <h3>Create Account Here</h3>
+        <h3>Create Account</h3>
 
         <label for="username">Username</label>
         <input name="name" type="text" placeholder="UserName" id="username">
@@ -165,6 +237,11 @@
         <input name="password" type="password" placeholder="Password" id="password">
 
         <button>Sign Up</button>
+        <br>
+        <br>
+        <div>
+            <p style="color: white;">Don't have an account? <a href="/login" style="color: blue;">Sign In</a></p>
+        </div>
     </form>
 </body>
 

@@ -1,14 +1,11 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}
 
-{% block content %}
-
-    <div class="container d-flex justify-content-center flex-column">
-    <h1>Home</h1>
-    <p>This is my home page</p>
-    <br>
-    <br>
-    <p>Sit sit non sint aliquip sit incididunt cupidatat anim est occaecat eiusmod ut veniam. Sint laboris aliquip commodo duis tempor reprehenderit amet. Minim non qui dolor excepteur mollit esse magna amet voluptate. Nisi veniam commodo quis aliqua nostrud occaecat aliqua ullamco tempor duis sit tempor. Laborum eiusmod nostrud nisi nulla tempor eiusmod. Exercitation ea non duis pariatur magna pariatur deserunt consectetur. Quis adipisicing qui tempor aliqua deserunt elit eiusmod non pariatur. Pariatur culpa ad magna esse. Veniam in consequat officia ut deserunt ea minim qui. Labore et occaecat veniam fugiat minim cillum anim eiusmod veniam consectetur. Aute dolor sit ut ut. Dolor est duis tempor exercitation irure amet quis. Officia sit laboris ullamco reprehenderit nostrud nostrud reprehenderit voluptate eiusmod reprehenderit. Culpa laboris duis aute elit enim officia dolor tempor sit nisi fugiat nisi duis adipisicing. Eu cupidatat magna laboris laborum eiusmod est duis deserunt amet Lorem aliqua proident id. Adipisicing laboris est reprehenderit aliqua. Et do sunt culpa consectetur dolore adipisicing. Voluptate elit tempor laborum nisi. Pariatur et irure amet ipsum laboris ea consequat ex.</p>
-    </div>
-
+<div class="container d-flex justify-content-center flex-column">
+  {% if session['user_id'] %}
+  <h1>Welcome, {{ session['username'] }}</h1>
+  {% else %}
+  <h1>User logged out</h1>
+  {% endif %}
+</div>
 
 {% endblock content %}
