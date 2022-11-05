@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Medi</title>
+    <link
+      href="https://ibm-bucket-2001.s3.jp-tok.cloud-object-storage.appdomain.cloud/hospital.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div class="hero_area">
+      <!-- header section strats -->
+      <header class="header_section">
+        <div class="container-fluid">
+          <nav class="navbar navbar-expand-lg custom_nav-container pt-3">
+            <a class="navbar-brand" href="">
+              <img
+                src="https://ibm-bucket-2001.s3.jp-tok.cloud-object-storage.appdomain.cloud/hospital_logo.png"
+                alt=""
+              />
+              <span> Medi </span>
+            </a>
+          </nav>
+        </div>
+      </header>
+      <section class="hero_section">
+        <div class="hero_detail">
+          <h1>
+            <span> h </span>
+            <span> e </span>
+            <span> r </span>
+            <span> b </span>
+            <span> a </span>
+            <span> l </span>
+          </h1>
+        </div>
+        <div class="hero_btn-box">
+          <a href=""> Contact Us </a>
+        </div>
+      </section>
+    </div>
+    <script>
+      window.watsonAssistantChatOptions = {
+        integrationID: "b6a26d32-941b-4296-b2b7-ffdac221a09c", // The ID of this integration.
+        region: "au-syd", // The region your integration is hosted in.
+        serviceInstanceID: "262e31e0-893d-42f7-9d59-00aea6c3791f", // The ID of your service instance.
+        onLoad: function (instance) {
+          instance.render();
+        },
+      };
+      setTimeout(function () {
+        const t = document.createElement("script");
+        t.src =
+          "https://web-chat.global.assistant.watson.appdomain.cloud/versions/" +
+          (window.watsonAssistantChatOptions.clientVersion || "latest") +
+          "/WatsonAssistantChatEntry.js";
+        document.head.appendChild(t);
+      });
+    </script>
+  </body>
+</html>
