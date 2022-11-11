@@ -151,7 +151,6 @@ def get_monthly_report(user_id, year):
 
 
 def get_spending_trends(user_id, year):
-
     spending_trends = []
     category_trend = {
         "name": None,
