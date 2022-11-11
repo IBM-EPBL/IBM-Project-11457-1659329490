@@ -1,10 +1,10 @@
 CREATE TABLE IF NOT EXISTS users (
 	id	INTEGER PRIMARY KEY,
 	username	TEXT NOT NULL,
-	passwordHash	TEXT NOT NULL,
+	password_hash	TEXT NOT NULL,
 	income	REAL NOT NULL DEFAULT 60000.00,
-	registerDate	TEXT NOT NULL,
-	lastLogin	TEXT NOT NULL
+	register_date	TEXT NOT NULL,
+	last_login	TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS budgets (
@@ -23,13 +23,13 @@ CREATE TABLE IF NOT EXISTS categories (
 	name	TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS userCategories (
+CREATE TABLE IF NOT EXISTS user_categories (
 	category_id	INTEGER NOT NULL,
 	user_id	INTEGER NOT NULL,
-	CONSTRAINT userCategories_category_id_fkey FOREIGN KEY (category_id)
+	CONSTRAINT user_categories_category_id_fkey FOREIGN KEY (category_id)
 		REFERENCES categories (id) 
 		ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT userCategories_user_id_fkey FOREIGN KEY (user_id)
+	CONSTRAINT user_categories_user_id_fkey FOREIGN KEY (user_id)
 		REFERENCES users (id) 
 		ON UPDATE NO ACTION ON DELETE NO ACTION
 );
