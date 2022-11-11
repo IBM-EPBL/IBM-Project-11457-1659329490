@@ -11,11 +11,11 @@
 
 **Team Leader :** Raveen A
 
-**Team member :** Oviya D
+**Team member 1 :** Oviya D
 
-**Team member :** Raguram G P
+**Team member 2 :** Raguram G P
 
-**Team member :** Sandhiya K
+**Team member 3 :** Sandhiya K
 
 **Branch & Degree	:** BE CSE	
 
