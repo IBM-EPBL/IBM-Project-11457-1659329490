@@ -1,6 +1,7 @@
 import os
 import calendar
-from utils import budgets_utils
+
+# from utils import budgets_utils
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from helpers import convertSQLToDict
@@ -47,7 +48,7 @@ def get_total_week_spendings(user_id):
 
 def get_last_five_expenses(user_id):
     results = db.execute(
-        "SELECT description, category, expense_date, payer, amount FROM expenses WHERE user_id = :user_id ORDER BY id DESC LIMIT 5",
+        "SELECT description, category_id, expense_date, payer, amount FROM expenses WHERE user_id = :user_id ORDER BY id DESC LIMIT 5",
         {"user_id": user_id},
     ).fetchall()
 
@@ -55,33 +56,33 @@ def get_last_five_expenses(user_id):
     return last_five_expenses
 
 
-def get_budgets(user_id, year):
-    budgets_result = []
-    budget = {"name": None, "amount": 0, "spent": 0, "remaining": 0}
+# def get_budgets(user_id, year):
+#     budgets_result = []
+#     budget = {"name": None, "amount": 0, "spent": 0, "remaining": 0}
 
-    budgets_query = budgets_utils.get_budgets(user_id)
+#     budgets_query = budgets_utils.get_budgets(user_id)
 
-    for record in budgets_query:
-        budgetID = record["id"]
-        budget["name"] = record["name"]
-        budget["amount"] = record["amount"]
+#     for record in budgets_query:
+#         budgetID = record["id"]
+#         budget["name"] = record["name"]
+#         budget["amount"] = record["amount"]
 
-        results = db.execute(
-            "SELECT SUM(amount) AS spent FROM expenses WHERE user_id = :user_id AND budgets_id = :budget_id)",
-            {"user_id": user_id, "budget_id": budgetID},
-        ).fetchall()
-        total_spent = convertSQLToDict(results)[0]["spent"]
+#         results = db.execute(
+#             "SELECT SUM(amount) AS spent FROM expenses WHERE user_id = :user_id AND budgets_id = :budget_id)",
+#             {"user_id": user_id, "budget_id": budgetID},
+#         ).fetchall()
+#         total_spent = convertSQLToDict(results)[0]["spent"]
 
-        if total_spent == None:
-            budget["spent"] = 0
-        else:
-            budget["spent"] = total_spent
+#         if total_spent == None:
+#             budget["spent"] = 0
+#         else:
+#             budget["spent"] = total_spent
 
-        budget["remaining"] = max(0, budget["amount"] - budget["spent"])
+#         budget["remaining"] = max(0, budget["amount"] - budget["spent"])
 
-        budgets_result.append(budget.copy())
+#         budgets_result.append(budget.copy())
 
-    return budgets_result
+#     return budgets_result
 
 
 def week_range(date):
@@ -107,7 +108,7 @@ def get_weekly_spendings(weeks, user_id):
         week_modal["end"] = week["end"].strftime("%b %d")
         week_modal["start"] = week["start"].strftime("%b %d")
         results = db.execute(
-            "SELECT SUM(amount) AS amount FROM expenses WHERE user_id = :user_id AND strftime('%Y', date(expense_date)) = strftime('%Y', date(:weekName)) AND strftime('%W', date(expense_date)) = strftime('%W',date(:date))",
+            "SELECT SUM(amount) AS amount FROM expenses WHERE user_id = :user_id AND strftime('%Y', date(expense_date)) = strftime('%Y', date(:date)) AND strftime('%W', date(expense_date)) = strftime('%W',date(:date))",
             {"user_id": user_id, "date": str(week["end"])},
         ).fetchall()
         weekly_spending = convertSQLToDict(results)[0]["amount"]
@@ -160,7 +161,7 @@ def get_spending_trends(user_id, year):
     }
 
     results = db.execute(
-        "SELECT category, COUNT(category) as count, SUM(amount) as amount FROM expenses WHERE user_id = :user_id AND strftime('%Y', date(expense_date)) = :year GROUP BY category ORDER BY COUNT(category) DESC",
+        "SELECT category_id, COUNT(*) as count, SUM(amount) as amount FROM expenses WHERE user_id = :user_id AND strftime('%Y', date(expense_date)) = :year GROUP BY category_id ORDER BY COUNT(*) DESC",
         {"user_id": user_id, "year": year},
     ).fetchall()
     categories = convertSQLToDict(results)

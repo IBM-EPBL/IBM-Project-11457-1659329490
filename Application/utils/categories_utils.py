@@ -12,11 +12,10 @@ db = scoped_session(sessionmaker(bind=engine))
 
 def get_user_categories(user_id):
     results = db.execute(
-        "SELECT categories.id, categories.name FROM usercategories INNER JOIN categories ON usercategories.category_id = categories.id WHERE usercategories.user_id = :user_id",
+        "SELECT categories.id, categories.name FROM user_categories INNER JOIN categories ON user_categories.category_id = categories.id WHERE user_categories.user_id = :user_id",
         {"user_id": user_id},
     ).fetchall()
 
     categories = convertSQLToDict(results)
 
     return categories
-
