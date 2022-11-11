@@ -3,14 +3,13 @@ import db
 from flask import Flask, render_template, redirect
 from helpers import login_required, rupees, percent
 
+import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = "raveen's_secret"
-#  os.getenv("DATABASE_URL")
-# CSRFProtect(app)
+app.secret_key = os.getenv("SECRET_KEY")
 
 # Custom filter
 app.jinja_env.filters["rupees"] = rupees
@@ -29,7 +28,7 @@ def design():
 
 
 @app.errorhandler(404)
-def not_found(error):
+def not_found():
     return redirect("/dashboard")
 
 
