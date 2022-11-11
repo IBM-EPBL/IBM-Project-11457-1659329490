@@ -4,7 +4,7 @@ from flask import Blueprint, render_template, request, session, redirect
 from helpers import login_required
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-from utils import dashboard_utils, categories_utils, payer_utils, account_utils, budget_utils
+from utils import dashboard_utils, categories_utils, payer_utils, account_utils, budget_utils, expenses_utils
 
 bp = Blueprint("dashboard", __name__, url_prefix="/dashboard")
 
@@ -37,8 +37,7 @@ def index():
 
         remaining_income = income - (expenses_year if expenses_year else 0)
 
-        expenses_last5 = dashboard_utils.get_last_five_expenses(session["user_id"])
-
+        expenses_last5 = expenses_utils.get_last_n_expenses(5, session["user_id"])
         budgets = budget_utils.get_budgets(session["user_id"])
 
         weeks = dashboard_utils.get_last_four_weeks()
@@ -67,3 +66,11 @@ def index():
             spending_trends=spending_trends,
             # payers_chart=payers_chart,
         )
+
+    if request.method == "POST":
+        formData = dict(request.form.items())
+
+        expense = expenses_utils.add_expense(formData, session["user_id"])
+
+        # Redirect to results page and render a summary of the submitted expenses
+        return redirect("/dashboard")

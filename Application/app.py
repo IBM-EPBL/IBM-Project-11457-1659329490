@@ -29,7 +29,7 @@ def design():
 
 
 @app.errorhandler(404)
-def not_found():
+def not_found(error):
     return redirect("/dashboard")
 
 

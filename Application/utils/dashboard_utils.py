@@ -46,45 +46,6 @@ def get_total_week_spendings(user_id):
     return total_week_spendings
 
 
-def get_last_five_expenses(user_id):
-    results = db.execute(
-        "SELECT description, category_id, expense_date, payer, amount FROM expenses WHERE user_id = :user_id ORDER BY id DESC LIMIT 5",
-        {"user_id": user_id},
-    ).fetchall()
-
-    last_five_expenses = convertSQLToDict(results)
-    return last_five_expenses
-
-
-# def get_budgets(user_id, year):
-#     budgets_result = []
-#     budget = {"name": None, "amount": 0, "spent": 0, "remaining": 0}
-
-#     budgets_query = budgets_utils.get_budgets(user_id)
-
-#     for record in budgets_query:
-#         budgetID = record["id"]
-#         budget["name"] = record["name"]
-#         budget["amount"] = record["amount"]
-
-#         results = db.execute(
-#             "SELECT SUM(amount) AS spent FROM expenses WHERE user_id = :user_id AND budgets_id = :budget_id)",
-#             {"user_id": user_id, "budget_id": budgetID},
-#         ).fetchall()
-#         total_spent = convertSQLToDict(results)[0]["spent"]
-
-#         if total_spent == None:
-#             budget["spent"] = 0
-#         else:
-#             budget["spent"] = total_spent
-
-#         budget["remaining"] = max(0, budget["amount"] - budget["spent"])
-
-#         budgets_result.append(budget.copy())
-
-#     return budgets_result
-
-
 def week_range(date):
     start_date = date + datetime.timedelta(-date.weekday())
     end_date = start_date + datetime.timedelta(days=6)
@@ -116,7 +77,7 @@ def get_weekly_spendings(weeks, user_id):
         if weekly_spending == None:
             week_modal["amount"] = 0
         else:
-            week_modal["amount"] = weekly_spending[0]["amount"]
+            week_modal["amount"] = weekly_spending
 
         weekly_spendings.append(week_modal.copy())
 
@@ -172,7 +133,7 @@ def get_spending_trends(user_id, year):
 
     for category_expenses in categories:
         percentage_spent = round((category_expenses["amount"] / total_spent) * 100)
-        category_trend["name"] = category_expenses["category"]
+        category_trend["name"] = category_expenses["category_id"]
         category_trend["percentage_spent"] = percentage_spent
         category_trend["total_spent"] = category_expenses["amount"]
         category_trend["total_count"] = category_expenses["count"]

@@ -55,22 +55,20 @@ CREATE TABLE IF NOT EXISTS payers (
 		ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
-CREATE TABLE IF NOT EXISTS expenses (
-	id	INTEGER PRIMARY KEY,
-	description	TEXT NOT NULL,
-	category_id	INTEGER NOT NULL,
-	expense_date	TEXT NOT NULL,
-	amount	REAL NOT NULL,
-	payer	TEXT NOT NULL,
-	submit_time	TEXT NOT NULL,
-	user_id	INTEGER NOT NULL,
-	budget_id INTEGER NOT NULL,
-	CONSTRAINT expenses_user_id_fkey FOREIGN KEY (user_id)
-		REFERENCES users (id) 
-		ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT expenses_budget_id_fkey FOREIGN KEY (budget_id)
-		REFERENCES budgets (id) 
-		ON UPDATE NO ACTION ON DELETE NO ACTION
+CREATE TABLE "expenses" (
+	"id"	INTEGER,
+	"description"	TEXT NOT NULL,
+	"category_id"	INTEGER NOT NULL,
+	"expense_date"	NUMERIC NOT NULL,
+	"amount"	REAL NOT NULL,
+	"payer_id"	INTEGER NOT NULL,
+	"submit_time"	TEXT NOT NULL,
+	"user_id"	INTEGER NOT NULL,
+	"budget_id"	INTEGER,
+	PRIMARY KEY("id"),
+	CONSTRAINT "expenses_payer_id_fkey" FOREIGN KEY("payer_id") REFERENCES "payer"("id") ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT "expenses_user_id_fkey" FOREIGN KEY("user_id") REFERENCES "users"("id") ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT "expenses_budget_id_fkey" FOREIGN KEY("budget_id") REFERENCES "budgets"("id") ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 INSERT INTO categories(name) VALUES ('Groceries');

@@ -215,11 +215,12 @@
                       <thead>
                         <tr>
                         <tr>
-                          <th scope="col">Description</th>
-                          <th scope="col">Category</th>
-                          <th scope="col">Date</th>
-                          <th scope="col">Payer</th>
-                          <th scope="col">Amount</th>
+                          <th>Description</th>
+                          <th>Category</th>
+                          <th>Date</th>
+                          <th>Payer</th>
+                          <th>Budget</th>
+                          <th>Amount</th>
                         </tr>
                         </tr>
                       </thead>
@@ -228,8 +229,9 @@
                         <tr>
                           <td>{{ expense['description'] }}</td>
                           <td>{{ expense['category'] }}</td>
-                          <td>{{ expense['expenseDate'] }}</td>
+                          <td>{{ expense['expense_date'] }}</td>
                           <td>{{ expense['payer'] }}</td>
+                          <td>{{ expense['budget'] }}</td>
                           <td>{{ expense['amount'] | rupees }}</td>
                         </tr>
                         {% endfor %}
