@@ -20,7 +20,7 @@ def add_payer(name, user_id):
 
 def get_user_payers(user_id):
     results = db.execute(
-        "SELECT name FROM payers WHERE user_id = :user_id",
+        "SELECT id, name FROM payers WHERE user_id = :user_id",
         {"user_id": user_id},
     ).fetchall()
     payers = convertSQLToDict(results)
