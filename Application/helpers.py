@@ -17,9 +17,11 @@ def login_required(f):
 def rupees(value):
     return f"₹{int(value)}"
 
-
 def percent(value):
     return f"{int(value)}%"
+
+def title(value):
+    return value.title()
 
 
 def convertSQLToDict(listOfRowProxy):

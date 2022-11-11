@@ -16,7 +16,7 @@
       },
       "args": [
         "run"
-        // "init-db",
+        // "init-db"
         // "--no-debugger", Comment out this line
         // "--no-reload"  Comment out this line
       ],

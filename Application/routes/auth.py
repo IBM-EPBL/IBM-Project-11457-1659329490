@@ -7,6 +7,7 @@ from flask import (
     request,
     session,
 )
+from utils import account_utils
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -27,44 +28,17 @@ def register():
     if request.method == "POST":
         # check if the user already exist
         username = request.form.get("username").strip()
-        existing_user = db.execute(
-            "SELECT username FROM users WHERE LOWER(username) = :username",
-            {"username": username.lower()},
-        ).fetchone()
+        existing_user = account_utils.is_existing_user(username)
         if existing_user:
             return render_template("register.html", username=username)
 
-        # Insert user into the database
-        password = request.form.get("password")
-        password_hash = generate_password_hash(password)
-        now = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
-        db.execute(
-            "INSERT INTO users (username, password_hash, register_date, last_login) VALUES (:username, :password_hash, :register_date, :last_login)",
-            {
-                "username": username,
-                "password_hash": password_hash,
-                "register_date": now,
-                "last_login": now,
-            },
-        )
-        db.commit()
-        user_id = db.execute("SELECT id from users order by ROWID DESC limit 1").fetchone()[0]
-
-
-        # Create default categories for user
-        db.execute(
-            "INSERT INTO user_categories (category_id, user_id) VALUES (1, :user_id), (2, :user_id), (3, :user_id), (4, :user_id), (5, :user_id), (6, :user_id), (7, :user_id), (8, :user_id)",
-            {"user_id": user_id},
-        )
-        db.commit()
+        user_id = account_utils.register_user(request.form)
 
         # add user to session for login.
         session["user_id"] = user_id
-        session['username'] = username
+        session["username"] = username
 
         return redirect("/")
-
-    
 
 
 @bp.route("/login", methods=["GET", "POST"])
@@ -103,7 +77,6 @@ def login():
 
         # Redirect user to home page
         return redirect("/")
-
 
 
 @bp.route("/logout")

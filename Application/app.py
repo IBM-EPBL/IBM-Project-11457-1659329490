@@ -1,7 +1,7 @@
 from routes import auth, dashboard  # , expenses, budgets, categories, reports, account
 import db
 from flask import Flask, render_template, redirect
-from helpers import login_required, rupees, percent
+from helpers import login_required, rupees, percent, title
 
 import os
 from dotenv import load_dotenv
@@ -14,6 +14,7 @@ app.secret_key = os.getenv("SECRET_KEY")
 # Custom filter
 app.jinja_env.filters["rupees"] = rupees
 app.jinja_env.filters["percent"] = percent
+app.jinja_env.filters["title"] = title
 
 
 @app.route("/")
