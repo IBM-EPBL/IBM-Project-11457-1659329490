@@ -32,3 +32,14 @@ def get_total_month_spendings(user_id):
     total_month_spendings = convertSQLToDict(results)
 
     return total_month_spendings[0]["expenses_month"]
+
+
+def get_total_week_spendings(user_id):
+    results = db.execute(
+        "SELECT SUM(amount) AS expenses_week FROM expenses WHERE user_id = :usersID AND strftime('%Y', date(expenseDate)) = strftime('%Y', CURRENT_DATE) AND strftime('%W', date(expenseDate)) = strftime('%W', CURRENT_DATE)",
+        {"usersID": user_id},
+    ).fetchall()
+
+    total_week_spendings = convertSQLToDict(results)
+
+    return total_week_spendings[0]["expenses_week"]
