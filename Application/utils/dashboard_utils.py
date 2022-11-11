@@ -58,7 +58,7 @@ def get_last_five_expenses(user_id):
 def get_budgets(user_id, year):
     budgets_result = []
     budget = {"name": None, "amount": 0, "spent": 0, "remaining": 0}
-    
+
     budgets_query = budgets_utils.get_budgets(user_id)
 
     for record in budgets_query:
@@ -82,3 +82,50 @@ def get_budgets(user_id, year):
         budgets_result.append(budget.copy())
 
     return budgets_result
+
+
+def week_range(date):
+    start_date = date + datetime.timedelta(-date.weekday())
+    end_date = start_date + datetime.timedelta(days=6)
+    return {"start": start_date, "end": end_date}
+
+
+def get_last_four_weeks():
+    cur = datetime.datetime.now()
+    weeks = []
+    for i in range(4):
+        weeks.append(week_range(cur - datetime.timedelta(weeks=i)))
+
+    return weeks
+
+
+def get_weekly_spendings(weeks, user_id):
+    weekly_spendings = []
+    week_modal = {"start": None, "end": None, "amount": None}
+
+    # Loop through each week and store the name/amount in a dict
+    for week in weeks:
+        week_modal["end"] = week["end"].strftime("%b %d")
+        week_modal["start"] = week["start"].strftime("%b %d")
+        results = db.execute(
+            "SELECT SUM(amount) AS amount FROM expenses WHERE user_id = :user_id AND strftime('%Y', date(expenseDate)) = strftime('%Y', date(:weekName)) AND strftime('%W', date(expenseDate)) = strftime('%W',date(:date))",
+            {"user_id": user_id, "date": str(week["end"])},
+        ).fetchall()
+        weekly_spending = convertSQLToDict(results)[0]["amount"]
+
+        if weekly_spending == None:
+            week_modal["amount"] = 0
+        else:
+            week_modal["amount"] = weekly_spending[0]["amount"]
+
+        weekly_spendings.append(week_modal.copy())
+
+    hasExpenses = False
+    for record in weekly_spendings:
+        if record["amount"] != 0:
+            hasExpenses = True
+            break
+    if hasExpenses is False:
+        weekly_spendings.clear()
+
+    return weekly_spendings
