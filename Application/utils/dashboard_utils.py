@@ -12,12 +12,23 @@ engine = create_engine(
 db = scoped_session(sessionmaker(bind=engine))
 
 
-def get_total_year_spendings(userID):
+def get_total_year_spendings(user_id):
     results = db.execute(
         "SELECT SUM(amount) AS expenses_year FROM expenses WHERE user_id = :usersID AND strftime('%Y', date(expenseDate)) = strftime('%Y', CURRENT_DATE)",
-        {"usersID": userID},
+        {"usersID": user_id},
     ).fetchall()
 
-    total_year_spending = convertSQLToDict(results)
+    total_year_spendings = convertSQLToDict(results)
 
-    return total_year_spending[0]["expenses_year"]
+    return total_year_spendings[0]["expenses_year"]
+
+
+def get_total_month_spendings(user_id):
+    results = db.execute(
+        "SELECT SUM(amount) AS expenses_month FROM expenses WHERE user_id = :usersID AND strftime('%Y', date(expenseDate)) = strftime('%Y', CURRENT_DATE) AND strftime('%m', date(expenseDate)) = strftime('%m', CURRENT_DATE)",
+        {"usersID": user_id},
+    ).fetchall()
+
+    total_month_spendings = convertSQLToDict(results)
+
+    return total_month_spendings[0]["expenses_month"]
