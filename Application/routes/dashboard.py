@@ -4,7 +4,7 @@ from flask import Blueprint, render_template, request, session, redirect
 from helpers import login_required
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-from utils import dashboard_utils, categories_utils, payer_utils, account_utils
+from utils import dashboard_utils, categories_utils, payer_utils, account_utils, budget_utils
 
 bp = Blueprint("dashboard", __name__, url_prefix="/dashboard")
 
@@ -39,7 +39,7 @@ def index():
 
         expenses_last5 = dashboard_utils.get_last_five_expenses(session["user_id"])
 
-        # budgets = dashboard_utils.get_budgets(session["user_id"])
+        budgets = budget_utils.get_budgets(session["user_id"])
 
         weeks = dashboard_utils.get_last_four_weeks()
         spending_week = dashboard_utils.get_weekly_spendings(weeks, session["user_id"])
@@ -61,7 +61,7 @@ def index():
             expenses_month=expenses_month,
             expenses_week=expenses_week,
             expenses_last5=expenses_last5,
-            # budgets=budgets,
+            budgets=budgets,
             spending_week=spending_week,
             spending_month=spending_month,
             spending_trends=spending_trends,
