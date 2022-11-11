@@ -77,6 +77,17 @@
                         </div>
                       </div>
                       <div class="form-group row">
+                        <label for="inputBudget" class="col-sm-2 col-form-label">Budget</label>
+                        <div class="col-sm-10">
+                          <select class="form-control" id="inputBudget" name="budget" required>
+                            <option value=-1>None</option>
+                            {% for payer in payers %}
+                            <option value="{{ payer['name'] }}">{{ payer['name'] }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group row">
                         <label for="inputAmount" class="col-sm-2 col-form-label">Amount</label>
                         <div class="col-sm-10">
                           <input type="number" class="form-control" id="inputAmount" placeholder="{{0|rupees}}"
