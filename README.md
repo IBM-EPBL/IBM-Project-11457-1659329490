@@ -47,5 +47,7 @@
 
 ### Tech Stack
 Frontend : HTML, CSS, JS, Bootstrap, Select2, off-canvas
+
 Backend: Python, Flask
+
 Database: SQLite
