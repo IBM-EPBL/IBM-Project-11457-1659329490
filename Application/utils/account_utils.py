@@ -46,3 +46,11 @@ def is_existing_user(username):
     ).fetchone()
 
     return True if account else False
+
+
+def get_income(user_id):
+    income = db.execute(
+        "SELECT income FROM users WHERE id = :user_id", {"user_id": user_id}
+    ).fetchone()[0]
+
+    return float(income)

@@ -54,7 +54,7 @@
                         <div class="col-sm-10">
                           <select class="form-control" id="inputCategory" name='category' required>
                             {% for category in categories %}
-                            <option value="{{ category['name'] }}">{{ category['name'] }}</option>
+                            <option value="{{ category['id'] }}">{{ category['name'] }}</option>
                             {% endfor %}
                           </select>
                         </div>
@@ -71,7 +71,7 @@
                         <div class="col-sm-10">
                           <select class="form-control" id="inputPayer" name="payer" required>
                             {% for payer in payers %}
-                            <option value="{{ payer['name'] }}">{{ payer['name'] }}</option>
+                            <option value="{{ payer['id'] }}">{{ payer['name'] }}</option>
                             {% endfor %}
                           </select>
                         </div>
