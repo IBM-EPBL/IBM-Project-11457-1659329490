@@ -1,0 +1,78 @@
+CREATE TABLE IF NOT EXISTS users (
+	id	INTEGER PRIMARY KEY,
+	username	TEXT NOT NULL,
+	passwordHash	TEXT NOT NULL,
+	income	REAL NOT NULL DEFAULT 60000.00,
+	registerDate	TEXT NOT NULL,
+	lastLogin	TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS budgets (
+	id	INTEGER PRIMARY KEY,
+	name TEXT NOT NULL,
+	amount	REAL,
+	year TEXT,
+	user_id	INTEGER NOT NULL,
+	CONSTRAINT budgets_user_id_fkey FOREIGN KEY (user_id)
+		REFERENCES users (id) 
+		ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE TABLE IF NOT EXISTS categories (
+	id	INTEGER PRIMARY KEY,
+	name	TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS userCategories (
+	category_id	INTEGER NOT NULL,
+	user_id	INTEGER NOT NULL,
+	CONSTRAINT userCategories_category_id_fkey FOREIGN KEY (category_id)
+		REFERENCES categories (id) 
+		ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT userCategories_user_id_fkey FOREIGN KEY (user_id)
+		REFERENCES users (id) 
+		ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE TABLE IF NOT EXISTS budgetCategories (
+	budgets_id	INTEGER NOT NULL,
+	category_id	INTEGER NOT NULL,
+	amount	REAL NOT NULL DEFAULT 0,
+	CONSTRAINT budgetCategories_budgets_id_fkey FOREIGN KEY (budgets_id)
+		REFERENCES budgets(id) 
+		ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT budgetCategories_category_id_fkey FOREIGN KEY (category_id)
+		REFERENCES categories (id) 
+		ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE TABLE IF NOT EXISTS payers (
+	user_id	INTEGER NOT NULL,
+	name	TEXT NOT NULL,
+	CONSTRAINT payers_user_id_fkey FOREIGN KEY (user_id)
+		REFERENCES users (id) 
+		ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE TABLE IF NOT EXISTS expenses (
+	id	INTEGER PRIMARY KEY,
+	description	TEXT NOT NULL,
+	category	TEXT NOT NULL,
+	expenseDate	TEXT NOT NULL,
+	amount	REAL NOT NULL,
+	payer	TEXT NOT NULL,
+	submitTime	TEXT NOT NULL,
+	user_id	INTEGER,
+	CONSTRAINT budgets_user_id_fkey FOREIGN KEY (user_id)
+		REFERENCES users (id) 
+		ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+INSERT INTO categories(name) VALUES ('Groceries');
+INSERT INTO categories(name) VALUES ('Housing');
+INSERT INTO categories(name) VALUES ('Utilities');
+INSERT INTO categories(name) VALUES ('Dining Out');
+INSERT INTO categories(name) VALUES ('Shopping');
+INSERT INTO categories(name) VALUES ('Travel');
+INSERT INTO categories(name) VALUES ('Entertainment');
+INSERT INTO categories(name) VALUES ('Other');
