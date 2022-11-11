@@ -34,19 +34,20 @@ CREATE TABLE IF NOT EXISTS user_categories (
 		ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
-CREATE TABLE IF NOT EXISTS budgetCategories (
+CREATE TABLE IF NOT EXISTS budget_categories (
 	budgets_id	INTEGER NOT NULL,
 	category_id	INTEGER NOT NULL,
 	amount	REAL NOT NULL DEFAULT 0,
-	CONSTRAINT budgetCategories_budgets_id_fkey FOREIGN KEY (budgets_id)
+	CONSTRAINT budget_categories_budgets_id_fkey FOREIGN KEY (budgets_id)
 		REFERENCES budgets(id) 
 		ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT budgetCategories_category_id_fkey FOREIGN KEY (category_id)
+	CONSTRAINT budget_categories_category_id_fkey FOREIGN KEY (category_id)
 		REFERENCES categories (id) 
 		ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 CREATE TABLE IF NOT EXISTS payers (
+	id INTEGER PRIMARY KEY, 
 	user_id	INTEGER NOT NULL,
 	name	TEXT NOT NULL,
 	CONSTRAINT payers_user_id_fkey FOREIGN KEY (user_id)
@@ -57,14 +58,18 @@ CREATE TABLE IF NOT EXISTS payers (
 CREATE TABLE IF NOT EXISTS expenses (
 	id	INTEGER PRIMARY KEY,
 	description	TEXT NOT NULL,
-	category	TEXT NOT NULL,
-	expenseDate	TEXT NOT NULL,
+	category_id	INTEGER NOT NULL,
+	expense_date	TEXT NOT NULL,
 	amount	REAL NOT NULL,
 	payer	TEXT NOT NULL,
-	submitTime	TEXT NOT NULL,
-	user_id	INTEGER,
-	CONSTRAINT budgets_user_id_fkey FOREIGN KEY (user_id)
+	submit_time	TEXT NOT NULL,
+	user_id	INTEGER NOT NULL,
+	budget_id INTEGER NOT NULL,
+	CONSTRAINT expenses_user_id_fkey FOREIGN KEY (user_id)
 		REFERENCES users (id) 
+		ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT expenses_budget_id_fkey FOREIGN KEY (budget_id)
+		REFERENCES budgets (id) 
 		ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 

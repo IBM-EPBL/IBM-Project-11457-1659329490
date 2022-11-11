@@ -101,13 +101,7 @@
                 <h4 class="card-title card-title-dash text-white mb-4">
                   Remaining Income
                 </h4>
-                {% set remainingIncome = (income - expenses_year) %}
-                {% if remainingIncome < 0 %} <h4 class="card-title">$0</h4>
-                  {% else %}
-
-                  <h2 class="text-info">{{remainingIncome | rupees}}</h2>
-                  {% endif %}
-
+                <h2 class="text-info">{{remaining_income | rupees}}</h2>
               </div>
             </div>
           </div>
