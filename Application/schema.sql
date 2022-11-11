@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS budget_categories (
 );
 
 CREATE TABLE IF NOT EXISTS payers (
+	id INTEGER PRIMARY KEY, 
 	user_id	INTEGER NOT NULL,
 	name	TEXT NOT NULL,
 	CONSTRAINT payers_user_id_fkey FOREIGN KEY (user_id)

@@ -1,0 +1,141 @@
+<div class="fixed-sidebar">
+  <nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav m-0">
+      <li class="nav-item">
+        <a class="nav-link" href="/dashboard">
+          <i class="mdi mdi-grid-large menu-icon"></i>
+          <span class="menu-title">Dashboard</span>
+        </a>
+      </li>
+      <li class="nav-item nav-category">Expenses</li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          data-bs-toggle="collapse"
+          href="#expenses"
+          aria-expanded="false"
+          aria-controls="expenses"
+        >
+          <i class="menu-icon mdi mdi-floor-plan"></i>
+          <span class="menu-title">Expenses</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse" id="expenses">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item">
+              <a class="nav-link" href="/expenses/add">Add Expenses</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/expenses/history">View Expenses</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li class="nav-item nav-category">Budgets</li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          data-bs-toggle="collapse"
+          href="#budgets"
+          aria-expanded="false"
+          aria-controls="budgets"
+        >
+          <i class="menu-icon mdi mdi-card-text-outline"></i>
+          <span class="menu-title">Budgets</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse" id="budgets">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item">
+              <a class="nav-link" href="/budgets/create">Create Budget</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/budgets">View Budgets</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="nav-item nav-category">Categories</li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          data-bs-toggle="collapse"
+          href="#category"
+          aria-expanded="false"
+          aria-controls="category"
+        >
+          <i class="menu-icon mdi mdi-account-circle-outline"></i>
+          <span class="menu-title">Categories</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse" id="category">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/add"> Add Category </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/categories"> View/Update Category </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="nav-item nav-category">Payer</li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          data-bs-toggle="collapse"
+          href="#payer"
+          aria-expanded="false"
+          aria-controls="payer"
+        >
+          <i class="menu-icon mdi mdi-qrcode-scan"></i>
+          <span class="menu-title">Payer</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse" id="payer">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item">
+              <a class="nav-link" href="/payers/add"> Add Payer </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/payers/"> View/Update Payer </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="nav-item nav-category">Reports</li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          data-bs-toggle="collapse"
+          href="#report"
+          aria-expanded="false"
+          aria-controls="report"
+        >
+          <i class="menu-icon mdi mdi-arrange-send-to-back"></i>
+          <span class="menu-title">Reports</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse" id="report">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item">
+              <a class="nav-link" href="/reports/budgets"> Budget Overview </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/reports/monthly"> Monthly Spending </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/reports/spendings"> Spending Trend </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/reports/payers"> Payer </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </nav>
+</div>

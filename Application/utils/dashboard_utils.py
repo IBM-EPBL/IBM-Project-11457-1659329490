@@ -19,9 +19,9 @@ def get_total_year_spendings(user_id):
         {"user_id": user_id},
     ).fetchall()
 
-    total_year_spendings = convertSQLToDict(results)
+    total_year_spendings = convertSQLToDict(results)[0]["expenses_year"]
 
-    return total_year_spendings[0]["expenses_year"]
+    return total_year_spendings
 
 
 def get_total_month_spendings(user_id):
@@ -30,9 +30,9 @@ def get_total_month_spendings(user_id):
         {"user_id": user_id},
     ).fetchall()
 
-    total_month_spendings = convertSQLToDict(results)
+    total_month_spendings = convertSQLToDict(results)[0]["expenses_month"]
 
-    return total_month_spendings[0]["expenses_month"]
+    return total_month_spendings
 
 
 def get_total_week_spendings(user_id):
@@ -41,9 +41,9 @@ def get_total_week_spendings(user_id):
         {"user_id": user_id},
     ).fetchall()
 
-    total_week_spendings = convertSQLToDict(results)
+    total_week_spendings = convertSQLToDict(results)[0]["expenses_week"]
 
-    return total_week_spendings[0]["expenses_week"]
+    return total_week_spendings
 
 
 def get_last_five_expenses(user_id):

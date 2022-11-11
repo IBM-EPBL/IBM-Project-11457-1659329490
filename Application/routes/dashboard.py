@@ -40,6 +40,8 @@ def index():
         expenses_month = dashboard_utils.get_total_month_spendings(session["user_id"])
         expenses_week = dashboard_utils.get_total_week_spendings(session["user_id"])
 
+        remaining_income = income - (expenses_year if expenses_year else 0)
+
         expenses_last5 = dashboard_utils.get_last_five_expenses(session["user_id"])
 
         # budgets = dashboard_utils.get_budgets(session["user_id"])
@@ -59,6 +61,7 @@ def index():
             payers=payers,
             date=date,
             income=income,
+            remaining_income=remaining_income,
             expenses_year=expenses_year,
             expenses_month=expenses_month,
             expenses_week=expenses_week,
