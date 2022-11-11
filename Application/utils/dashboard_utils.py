@@ -53,3 +53,32 @@ def get_last_five_expenses(user_id):
 
     last_five_expenses = convertSQLToDict(results)
     return last_five_expenses
+
+
+def get_budgets(user_id, year):
+    budgets_result = []
+    budget = {"name": None, "amount": 0, "spent": 0, "remaining": 0}
+    
+    budgets_query = budgets_utils.get_budgets(user_id)
+
+    for record in budgets_query:
+        budgetID = record["id"]
+        budget["name"] = record["name"]
+        budget["amount"] = record["amount"]
+
+        results = db.execute(
+            "SELECT SUM(amount) AS spent FROM expenses WHERE user_id = :user_id AND budgets_id = :budget_id)",
+            {"user_id": user_id, "budget_id": budgetID},
+        ).fetchall()
+        total_spent = convertSQLToDict(results)[0]["spent"]
+
+        if total_spent == None:
+            budget["spent"] = 0
+        else:
+            budget["spent"] = total_spent
+
+        budget["remaining"] = max(0, budget["amount"] - budget["spent"])
+
+        budgets_result.append(budget.copy())
+
+    return budgets_result
