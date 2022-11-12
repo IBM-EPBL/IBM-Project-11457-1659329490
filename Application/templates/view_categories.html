@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+
+{% block title %}Add Expenses{% endblock title %}
+
+
+
+
+{% block main %}
+
+<div class="grid-margin stretch-card">
+    <div class="col-md-4 grid-margin grid-margin-md-0 stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Category List</h3>
+                <p class="card-description">List of categories to plan budget</p>
+                <ul class="list-star">
+                    {% for category in categories%}
+
+                    <li>{{category['name']}}</li>
+
+                    {%endfor%}
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock main %}
+
+
+{% block script %} {% endblock script %}
