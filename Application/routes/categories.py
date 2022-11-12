@@ -18,6 +18,13 @@ engine = create_engine(
 db = scoped_session(sessionmaker(bind=engine))
 
 
+@bp.route("/view", methods=["GET"])
+@login_required
+def get_categories():
+    categories = categories_utils.get_user_categories(session["user_id"])
+    return render_template("view_categories.html", categories=categories)
+
+
 @bp.route("/add", methods=["GET", "POST"])
 @login_required
 def add_category():
