@@ -1,0 +1,207 @@
+{% extends 'layout.html' %}
+
+{% block title %}Profile{% endblock title %}
+
+{% block styles %}
+<style>
+  i.menu-icon {
+    font-size: 18px;
+    line-height: 1;
+    margin: auto;
+    color: #484848;
+
+  }
+
+  .heading {
+    font-weight: 900 !important;
+    color: rgb(30, 30, 145) !important;
+  }
+</style>
+{% endblock styles %}
+
+{% block main %}
+<section>
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card mb-3">
+          <div class="card-body text-center">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+              class="rounded-circle img-fluid" style="width: 150px;" />
+            <h5 class="my-3">{{username}}<i class="menu-icon mdi mdi mdi-pen"></i></h5>
+            <button type="button" class="btn btn-info text-white mb-4" data-toggle="modal"
+              data-target="#updateName">Edit</button>
+            <div class="modal fade" id="updateName" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">Edit Your Name</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form method="POST" action="/profile/username" autocomplete="off">
+                      <div class="form-group row">
+                        <label for="inputDescription" class="col-sm-3 col-form-label">User Name</label>
+                        <div class="col-sm-9">
+                          <input type="text" class="form-control" id="inputDescription" placeholder="User Name"
+                            name="name" required />
+                        </div>
+                      </div>
+
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success text-white">Save</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-1 mb-lg-0">
+          <div class="card-body text-center">
+            <h4 class="">Password</h4>
+            <p class="" style="font-size: 0.77rem;">Update your password</p>
+
+            <div class="d-flex justify-content-center ">
+              <button type="button" class="btn btn-warning" data-toggle="modal"
+                data-target="#updatePassword">Update</button>
+              <div class="modal fade" id="updatePassword" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title" id="exampleModalLabel">Update Password</h4>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form method="POST" action="/profile/password" autocomplete="off">
+                        <div class="form-group row">
+                          <label for="inputDescription" class="col-sm-3 col-form-label">Old Password</label>
+                          <div class="col-sm-9">
+                            <input type="password" class="form-control" id="inputDescription" placeholder="Old password"
+                              name="old_password" required />
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="inputDescription" class="col-sm-3 col-form-label">New Password</label>
+                          <div class="col-sm-9">
+                            <input type="password" class="form-control" id="inputDescription" placeholder="New password"
+                              name="new_password" required />
+                          </div>
+                        </div>
+
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-success text-white">Update</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h4 class="my-3 heading text-center">Statistics</h4>
+            <p class="mb-4"><span class="text-primary font-italic me-1">Member since </span> {{stats['register_date']}}
+            </p>
+            <p class="mb-1" style="font-size: 0.77rem;">Expense : <span
+                class="text-primary font-italic me-1 ml-2">{{stats['total_expenses']}}
+              </span></p>
+            <div class="progress rounded" style="height: 5px;">
+              <div class="progress-bar" role="progressbar" style="width: {{stats['expense_percentage']}}%;"></div>
+            </div>
+            <p class="mt-4 mb-1" style="font-size: 0.77rem;">Budget : <span class="text-primary font-italic me-1 ml-2">
+                {{stats['total_budgets']}}
+              </span></p>
+            <div class="progress rounded" style="height: 5px;">
+              <div class="progress-bar" role="progressbar" style="width: {{stats['budget_percentage']}}%;"></div>
+            </div>
+            <p class="mt-4 mb-1" style="font-size: 0.77rem;">Spend Categories : <span
+                class="text-primary font-italic me-1 ml-2">{{ stats['total_categories'] }} </span></p>
+            <div class="progress rounded" style="height: 5px;">
+              <div class="progress-bar" role="progressbar" style="width: {{ stats['categories_percentage'] }}%;"></div>
+            </div>
+            <p class="mt-4 mb-1" style="font-size: 0.77rem;">Payers : <span
+                class="text-primary font-italic me-1 ml-2">{{ stats['total_payers']}}
+              </span></p>
+            <div class="progress rounded" style="height: 5px;">
+              <div class="progress-bar" role="progressbar" style="width: {{ stats['payers_percentage'] }}%;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card mb-4 mb-md-0">
+              <div class="card-body text-center">
+                <h4 class="my-3 heading">Income</h4>
+                <p style="font-size: 0.9rem;">Your Income is <b>{{income | rupees}}</b></p>
+                <div class="d-flex justify-content-center mb-1 mt-4">
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateIncome">Update
+                    Income</button>
+                  <div class="modal fade" id="updateIncome" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h4 class="modal-title" id="exampleModalLabel">Update Income</h4>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <form method="POST" action="/profile/income" autocomplete="off">
+                            <div class="form-group row">
+                              <label for="inputDescription" class="col-sm-3 col-form-label">Your Income</label>
+                              <div class="col-sm-9">
+                                <input type="number" class="form-control" id="inputDescription" placeholder="Income"
+                                  name="income" min="1" max="1000000" required />
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-success text-white">Update</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card mb-4 mb-md-0">
+              <div class="card-body text-center">
+                <h4 class="my-3 heading">Payers</h4>
+                <p style="font-size: 0.77rem;">Add your partner to track expense together</p>
+                <div class="d-flex justify-content-center mb-1 mt-4">
+                  <a href="/payers/add" class="btn btn-primary">Add</a>
+                  <a href="/payers" class="btn btn-outline-primary ms-1">Manage</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% endblock main %}
+
+
+{% block script %} {% endblock script %}
