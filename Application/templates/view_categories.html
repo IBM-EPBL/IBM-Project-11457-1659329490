@@ -16,10 +16,10 @@
                 <ul class="list-star">
                     {% for category in categories%}
 
-                    <li>{{category['name']}}</li>
+                    <li>{{category['name'] | title}}</li>
 
                     {%endfor%}
-                    
+
                 </ul>
             </div>
         </div>
