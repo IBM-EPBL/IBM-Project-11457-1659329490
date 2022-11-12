@@ -25,3 +25,10 @@ def add_payer():
         name = request.form["name"].strip()
         payer_utils.add_payer(name, session["user_id"])
     return render_template("add_payer.html")
+
+
+@bp.route("/view", methods=["GET"])
+@login_required
+def get_payers():
+    payers = payer_utils.get_user_payers(session["user_id"])
+    return render_template("view_payers.html", payers=payers)

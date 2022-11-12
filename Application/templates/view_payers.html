@@ -15,7 +15,7 @@
                 <p class="card-description">List of Payer in budget plan</p>
                 <ul class="list-star">
                     {% for payer in payers %}
-                    <li>{{payer['name']}}</li>
+                    <li>{{payer['name'] | title}}</li>
 
                     {%endfor%}
                 </ul>
