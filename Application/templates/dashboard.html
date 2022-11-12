@@ -206,7 +206,7 @@
                         Last 5 Expenses
                       </h4>
                       <p class="card-subtitle card-subtitle-dash">
-                        <a href="/expenses">View all Expenses</a>
+                        <a href="/expenses/view">View all Expenses</a>
                       </p>
                     </div>
                   </div>
@@ -229,7 +229,7 @@
                         <tr>
                           <td>{{ expense['description'] }}</td>
                           <td>{{ expense['category'] }}</td>
-                          <td>{{ expense['expense_date'] }}</td>
+                          <td>{{ expense['date'] }}</td>
                           <td>{{ expense['payer'] }}</td>
                           <td>{{ expense['budget'] }}</td>
                           <td>{{ expense['amount'] | rupees }}</td>

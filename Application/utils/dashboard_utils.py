@@ -15,7 +15,7 @@ db = scoped_session(sessionmaker(bind=engine))
 
 def get_total_year_spendings(user_id):
     results = db.execute(
-        "SELECT SUM(amount) AS expenses_year FROM expenses WHERE user_id = :user_id AND strftime('%Y', date(expense_date)) = strftime('%Y', CURRENT_DATE)",
+        "SELECT SUM(amount) AS expenses_year FROM expenses WHERE user_id = :user_id AND strftime('%Y', date(date)) = strftime('%Y', CURRENT_DATE)",
         {"user_id": user_id},
     ).fetchall()
 
@@ -26,7 +26,7 @@ def get_total_year_spendings(user_id):
 
 def get_total_month_spendings(user_id):
     results = db.execute(
-        "SELECT SUM(amount) AS expenses_month FROM expenses WHERE user_id = :user_id AND strftime('%Y', date(expense_date)) = strftime('%Y', CURRENT_DATE) AND strftime('%m', date(expense_date)) = strftime('%m', CURRENT_DATE)",
+        "SELECT SUM(amount) AS expenses_month FROM expenses WHERE user_id = :user_id AND strftime('%Y', date(date)) = strftime('%Y', CURRENT_DATE) AND strftime('%m', date(date)) = strftime('%m', CURRENT_DATE)",
         {"user_id": user_id},
     ).fetchall()
 
@@ -37,7 +37,7 @@ def get_total_month_spendings(user_id):
 
 def get_total_week_spendings(user_id):
     results = db.execute(
-        "SELECT SUM(amount) AS expenses_week FROM expenses WHERE user_id = :user_id AND strftime('%Y', date(expense_date)) = strftime('%Y', CURRENT_DATE) AND strftime('%W', date(expense_date)) = strftime('%W', CURRENT_DATE)",
+        "SELECT SUM(amount) AS expenses_week FROM expenses WHERE user_id = :user_id AND strftime('%Y', date(date)) = strftime('%Y', CURRENT_DATE) AND strftime('%W', date(date)) = strftime('%W', CURRENT_DATE)",
         {"user_id": user_id},
     ).fetchall()
 
@@ -69,7 +69,7 @@ def get_weekly_spendings(weeks, user_id):
         week_modal["end"] = week["end"].strftime("%b %d")
         week_modal["start"] = week["start"].strftime("%b %d")
         results = db.execute(
-            "SELECT SUM(amount) AS amount FROM expenses WHERE user_id = :user_id AND strftime('%Y', date(expense_date)) = strftime('%Y', date(:date)) AND strftime('%W', date(expense_date)) = strftime('%W',date(:date))",
+            "SELECT SUM(amount) AS amount FROM expenses WHERE user_id = :user_id AND strftime('%Y', date(date)) = strftime('%Y', date(:date)) AND strftime('%W', date(date)) = strftime('%W',date(:date))",
             {"user_id": user_id, "date": str(week["end"])},
         ).fetchall()
         weekly_spending = convertSQLToDict(results)[0]["amount"]
@@ -97,7 +97,7 @@ def get_monthly_report(user_id, year):
     month_model = {"name": None, "amount": None}
 
     results = db.execute(
-        "SELECT strftime('%m', date(expense_date)) AS month, SUM(amount) AS amount FROM expenses WHERE user_id = :user_id AND strftime('%Y', date(expense_date)) = :year GROUP BY strftime('%m', date(expense_date))  ORDER BY month",
+        "SELECT strftime('%m', date(date)) AS month, SUM(amount) AS amount FROM expenses WHERE user_id = :user_id AND strftime('%Y', date(date)) = :year GROUP BY strftime('%m', date(date))  ORDER BY month",
         {"user_id": user_id, "year": year},
     ).fetchall()
 
@@ -122,7 +122,7 @@ def get_spending_trends(user_id, year):
     }
 
     results = db.execute(
-        "SELECT category_id, COUNT(*) as count, SUM(amount) as amount FROM expenses WHERE user_id = :user_id AND strftime('%Y', date(expense_date)) = :year GROUP BY category_id ORDER BY COUNT(*) DESC",
+        "SELECT category_id, COUNT(*) as count, SUM(amount) as amount FROM expenses WHERE user_id = :user_id AND strftime('%Y', date(date)) = :year GROUP BY category_id ORDER BY COUNT(*) DESC",
         {"user_id": user_id, "year": year},
     ).fetchall()
     categories = convertSQLToDict(results)
