@@ -2,52 +2,12 @@ import os
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-from werkzeug.security import check_password_hash, generate_password_hash
+from utils import account_utils
 
 engine = create_engine(
     os.getenv("DATABASE_URL"), connect_args={"check_same_thread": False}
 )
 db = scoped_session(sessionmaker(bind=engine))
-
-
-def get_username(user_id):
-    name = db.execute(
-        "SELECT username FROM users WHERE id = :user_id", {"user_id": user_id}
-    ).fetchone()[0]
-
-    return name
-
-
-def get_income(user_id):
-    income = db.execute(
-        "SELECT income FROM users WHERE id = :user_id", {"user_id": user_id}
-    ).fetchone()[0]
-
-    return float(income)
-
-
-def update_income(income, user_id):
-    db.execute(
-        "UPDATE users SET income = :income WHERE id = :user_id",
-        {"income": income, "user_id": user_id},
-    ).rowcount
-    db.commit()
-
-
-def update_password(old_pass, new_pass, user_id):
-    password_hash_db = db.execute(
-        "SELECT hash FROM users WHERE id = :user_id", {"user_id": user_id}
-    ).fetchone()[0]
-    if not check_password_hash(password_hash_db, old_pass):
-        return {"error": "invalid password"}
-
-    new_hashed_password = generate_password_hash(new_pass)
-
-    db.execute(
-        "UPDATE users SET hash = :hashed_pass WHERE id = :user_id",
-        {"hashed_pass": new_hashed_password, "user_id": user_id},
-    )
-    db.commit()
 
 
 def get_statistics(user_id):
@@ -110,8 +70,8 @@ def get_statistics(user_id):
 def get_user_info(user_id):
     user = {"name": None, "income": None, "stats": None}
 
-    user["name"] = get_username(user_id)
-    user["income"] = get_income(user_id)
+    user["name"] = account_utils.get_username(user_id)
+    user["income"] = account_utils.get_income(user_id)
     user["stats"] = get_statistics(user_id)
 
     return user

@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, request, session, redirect
 from helpers import login_required
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-from utils import profile_utils
+from utils import account_utils, profile_utils
 
 bp = Blueprint("profile", __name__, url_prefix="/profile")
 
@@ -24,3 +24,14 @@ def profile():
         income=user["income"],
         stats=user["stats"],
     )
+
+
+@bp.route("/username", methods=["GET", "POST"])
+@login_required
+def update_username():
+    if request.method == "POST":
+        name = request.form["name"].strip()
+        account_utils.update_username(name, session["user_id"])
+        session["username"] = name
+
+    return redirect("/profile")

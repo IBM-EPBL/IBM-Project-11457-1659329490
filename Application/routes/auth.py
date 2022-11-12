@@ -1,5 +1,4 @@
 import os
-from datetime import datetime
 from flask import (
     Blueprint,
     redirect,
@@ -7,8 +6,8 @@ from flask import (
     request,
     session,
 )
-from utils import profile_utils
-from werkzeug.security import check_password_hash, generate_password_hash
+from utils import account_utils
+from werkzeug.security import check_password_hash
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
@@ -28,11 +27,11 @@ def register():
     if request.method == "POST":
         # check if the user already exist
         username = request.form.get("username").strip()
-        existing_user = profile_utils.is_existing_user(username)
+        existing_user = account_utils.is_existing_user(username)
         if existing_user:
             return render_template("register.html", username=username)
 
-        user_id = profile_utils.register_user(request.form)
+        user_id = account_utils.register_user(request.form)
 
         # add user to session for login.
         session["user_id"] = user_id
@@ -51,7 +50,7 @@ def login():
     if request.method == "POST":
         # Query database for username
         username = request.form.get("username")
-        user = profile_utils.get_user(username)
+        user = account_utils.get_user(username)
 
         if not user or not check_password_hash(
             user["password_hash"], request.form.get("password")
@@ -63,7 +62,7 @@ def login():
         session["username"] = user["username"]
 
         # Record the login time
-        profile_utils.update_user_login_time(session["user_id"])
+        account_utils.update_user_login_time(session["user_id"])
 
         # Redirect user to home page
         return redirect("/")

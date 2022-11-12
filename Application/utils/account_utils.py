@@ -71,3 +71,52 @@ def get_income(user_id):
     ).fetchone()[0]
 
     return float(income)
+
+
+def update_username(name, user_id):
+    db.execute(
+        "UPDATE users SET username = :name where id = :user_id ",
+        {"name": name, "user_id": user_id},
+    )
+    db.commit()
+
+
+def get_username(user_id):
+    name = db.execute(
+        "SELECT username FROM users WHERE id = :user_id", {"user_id": user_id}
+    ).fetchone()[0]
+
+    return name
+
+
+def get_income(user_id):
+    income = db.execute(
+        "SELECT income FROM users WHERE id = :user_id", {"user_id": user_id}
+    ).fetchone()[0]
+
+    return float(income)
+
+
+def update_income(income, user_id):
+    db.execute(
+        "UPDATE users SET income = :income WHERE id = :user_id",
+        {"income": income, "user_id": user_id},
+    ).rowcount
+    db.commit()
+
+
+def update_password(old_pass, new_pass, user_id):
+    password_hash_db = db.execute(
+        "SELECT password_hash FROM users WHERE id = :user_id", {"user_id": user_id}
+    ).fetchone()[0]
+
+    if not check_password_hash(password_hash_db, old_pass):
+        return {"error": "Current password is wrong"}
+
+    new_hashed_password = generate_password_hash(new_pass)
+
+    db.execute(
+        "UPDATE users SET password_hash = :hashed_pass WHERE id = :user_id",
+        {"hashed_pass": new_hashed_password, "user_id": user_id},
+    )
+    db.commit()
