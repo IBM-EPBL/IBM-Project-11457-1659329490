@@ -59,7 +59,7 @@ CREATE TABLE "expenses" (
 	"id"	INTEGER,
 	"description"	TEXT NOT NULL,
 	"category_id"	INTEGER NOT NULL,
-	"expense_date"	NUMERIC NOT NULL,
+	"date"	NUMERIC NOT NULL,
 	"amount"	REAL NOT NULL,
 	"payer_id"	INTEGER NOT NULL,
 	"submit_time"	TEXT NOT NULL,

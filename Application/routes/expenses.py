@@ -40,3 +40,14 @@ def add_expense():
         payers=payers,
         budgets=budgets,
     )
+
+
+@bp.route("/view", methods=["GET"])
+@login_required
+def get_expenses():
+    expenses = expenses_utils.get_expenses(session["user_id"])
+
+    return render_template(
+        "view_expenses.html",
+        expenses=expenses,
+    )
