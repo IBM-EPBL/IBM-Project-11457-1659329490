@@ -45,3 +45,15 @@ def update_income():
         account_utils.update_income(formData["income"], session["user_id"])
 
     return redirect("/profile")
+
+
+@bp.route("/password", methods=["GET", "POST"])
+@login_required
+def update_password():
+    if request.method == "POST":
+        formData = request.form
+        account_utils.update_password(
+            formData["old_password"], formData["new_password"], session["user_id"]
+        )
+
+    return redirect("/profile")
