@@ -8,9 +8,9 @@ from utils import (
     dashboard_utils,
     categories_utils,
     payer_utils,
-    account_utils,
     budget_utils,
     expenses_utils,
+    profile_utils,
 )
 
 bp = Blueprint("dashboard", __name__, url_prefix="/dashboard")
@@ -38,7 +38,7 @@ def index():
         payers = payer_utils.get_user_payers(session["user_id"])
         budgets = budget_utils.get_budgets(session["user_id"])
 
-        income = account_utils.get_income(session["user_id"])
+        income = profile_utils.get_income(session["user_id"])
         expenses_year = dashboard_utils.get_total_year_spendings(session["user_id"])
         expenses_month = dashboard_utils.get_total_month_spendings(session["user_id"])
         expenses_week = dashboard_utils.get_total_week_spendings(session["user_id"])

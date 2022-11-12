@@ -19,7 +19,7 @@
         <h1 class="welcome-text">
           Good Morning, <span class="text-black fw-bold">{{session['username'] | title}}</span>
         </h1>
-        <h3 class="welcome-sub-text">Your performance summary this week</h3>
+        <h3 class="welcome-sub-text">We manage money for you !</h3>
       </li>
     </ul>
     <ul class="navbar-nav ms-auto">
@@ -32,7 +32,8 @@
             <img class="img-md rounded-circle" src="https://picsum.photos/100/100" alt="Profile image" />
             <p class="mb-1 mt-3 font-weight-semibold">{{session['username'] | title}}</p>
           </div>
-          <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i>
+          <a class="dropdown-item" href="/profile"><i
+              class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i>
             My Profile
           </a>
           <a class="dropdown-item" href="/auth/logout"><i

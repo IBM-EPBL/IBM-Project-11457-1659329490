@@ -28,7 +28,7 @@
           <div class="card-body text-center">
             <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
               class="rounded-circle img-fluid" style="width: 150px;" />
-            <h5 class="my-3">{{username}}<i class="menu-icon mdi mdi mdi-pen"></i></h5>
+            <h5 class="my-3">{{username | title}}<i class="menu-icon mdi mdi mdi-pen"></i></h5>
             <button type="button" class="btn btn-info text-white mb-4" data-toggle="modal"
               data-target="#updateName">Edit</button>
             <div class="modal fade" id="updateName" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -189,7 +189,7 @@
                 <p style="font-size: 0.77rem;">Add your partner to track expense together</p>
                 <div class="d-flex justify-content-center mb-1 mt-4">
                   <a href="/payers/add" class="btn btn-primary">Add</a>
-                  <a href="/payers" class="btn btn-outline-primary ms-1">Manage</a>
+                  <a href="/payers/view" class="btn btn-outline-primary ms-1">View</a>
                 </div>
               </div>
             </div>
