@@ -39,6 +39,23 @@ def register_user(form_data):
     return user_id
 
 
+def get_user(username):
+    user = db.execute(
+        "SELECT * FROM users WHERE username = :username",
+        {"username": username},
+    ).fetchone()
+    return user
+
+
+def update_user_login_time(user_id):
+    now = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
+    db.execute(
+        "UPDATE users SET last_login = :last_login WHERE id = :user_id",
+        {"last_login": now, "user_id": user_id},
+    )
+    db.commit()
+
+
 def is_existing_user(username):
     account = db.execute(
         "SELECT username FROM users WHERE LOWER(username) = :username",
