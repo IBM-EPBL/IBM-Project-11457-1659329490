@@ -35,3 +35,13 @@ def update_username():
         session["username"] = name
 
     return redirect("/profile")
+
+
+@bp.route("/income", methods=["GET", "POST"])
+@login_required
+def update_income():
+    if request.method == "POST":
+        formData = request.form
+        account_utils.update_income(formData["income"], session["user_id"])
+
+    return redirect("/profile")
