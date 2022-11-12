@@ -1,4 +1,9 @@
-from routes import auth, dashboard, expenses  # , budgets, categories, reports, account
+from routes import (
+    auth,
+    dashboard,
+    expenses,
+    payers,
+)  # , budgets, categories, reports, account
 import db
 from flask import Flask, render_template, redirect
 from helpers import login_required, rupees, percent, title
@@ -39,5 +44,6 @@ app.register_blueprint(dashboard.bp)
 app.register_blueprint(expenses.bp)
 # app.register_blueprint(budgets.bp)
 # app.register_blueprint(categories.bp)
+app.register_blueprint(payers.bp)
 # app.register_blueprint(reports.bp)
 # app.register_blueprint(account.bp)
