@@ -1,7 +1,13 @@
 import os
 import calendar
 import copy
-from utils import dashboard_utils, budget_utils, categories_utils, expenses_utils
+from utils import (
+    dashboard_utils,
+    budget_utils,
+    categories_utils,
+    expenses_utils,
+    payer_utils,
+)
 
 
 from sqlalchemy import create_engine
@@ -60,3 +66,19 @@ def get_monthly_report_chart(user_id, year):
         monthly_report.append(month_model.copy())
 
     return monthly_report
+
+
+def get_payers_report(user_id, year):
+    payers_and_amount_spent = payer_utils.get_payers_and_amount_spent(user_id, year)
+
+    total_amount_spent = 0
+    for payer in payers_and_amount_spent:
+        total_amount_spent = total_amount_spent + payer["amount"]
+
+    if total_amount_spent != 0:
+        for payer in payers_and_amount_spent:
+            payer["percent_amount"] = round(
+                (payer["amount"] / total_amount_spent) * 100
+            )
+
+    return payers_and_amount_spent

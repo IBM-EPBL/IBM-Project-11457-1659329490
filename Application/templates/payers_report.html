@@ -23,12 +23,12 @@
               </tr>
             </thead>
             <tbody>
-              {% for payer in payers %}
+              {% for payer in payers_report %}
               <tr>
                 <td>{{loop.index}}</td>
-                <td>{{ payer["name"] }}</td>
+                <td>{{ payer["name"] | title }}</td>
                 <td>{{ payer["amount"] | rupees }}</td>
-                <td>{{ payer["percentAmount"] | percent }}</td>
+                <td>{{ payer["percent_amount"] | percent }}</td>
               </tr>
               {% endfor %}
             </tbody>
@@ -36,8 +36,8 @@
               <tr>
                 <th></th>
                 <th>Total</th>
-                <th>{{ payers | sum(attribute="amount") | rupees }}</th>
-                <th>{{ payers | sum(attribute="percentAmount") | percent}}</th>
+                <th>{{ payers_report | sum(attribute="amount") | rupees }}</th>
+                <th>{{ payers_report | sum(attribute="percent_amount") | percent}}</th>
               </tr>
             </tfoot>
           </table>

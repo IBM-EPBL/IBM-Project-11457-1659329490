@@ -38,3 +38,13 @@ def budgets_report(year=None):
     budget_reports = reports_utils.get_budgets_report(session["user_id"], year)
 
     return render_template("budgets_report.html", budget_reports=budget_reports)
+
+
+@bp.route("/payers", methods=["GET"])
+@login_required
+def payersreport():
+    year = str(datetime.now().year)
+
+    payers_report = reports_utils.get_payers_report(session["user_id"], year)
+
+    return render_template("payers_report.html", payers_report=payers_report)
