@@ -1,0 +1,233 @@
+{% extends 'layout.html' %} {% block title %}Create Expenses{% endblock title %}
+{% block styles %}
+<style>
+  .form-control {
+    height: 3rem;
+  }
+
+  .badge {
+    font-size: 1rem;
+  }
+</style>
+{% endblock styles %} {% block main %}
+
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <h4 class="card-title col-md-7">Create Budget</h4>
+      <div class="row col-md-5">
+        <div class="col-md-7 d-flex align-items-center">
+          <h4 class="card-title m-0">Un-budgeted Amount:</h4>
+        </div>
+        <div class="d-flex col-md-5">
+          <h4 class="badge badge-opacity-success m-auto p-3">
+            {{unbudgeted | rupees}}
+          </h4>
+        </div>
+      </div>
+    </div>
+    <p class="card-description">Enter details for the budget</p>
+    <form actions="budgets/create" method="post" id="form">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              name="name"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="budget">Budget</label>
+            <input
+              type="number"
+              class="form-control"
+              id="budget"
+              max="{{ unbudgeted }}"
+              name="amount"
+              min="1"
+              required
+            />
+            <div class="d-flex">
+              <p class="me-3">Remaining budget:</p>
+              <p class="text-primary" id="remaining-budget">
+                {{ unbudgeted |rupees}}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label>Categories</label>
+          <div class="row m-3">
+            {% for category in categories %}
+            <div class="form-check col-md-4">
+              <label class="form-check-label">
+                <input
+                  type="checkbox"
+                  class="form-check-input category-check"
+                  id="{{ category['id'] }}"
+                  name="{{ category['name'] }}"
+                />
+                {{ category['name'] }}
+              </label>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <hr />
+
+      <label class="mt-3">Category Split</label>
+      {% for category in categories %}
+      <div class="row mt-5 category-split" id="split-{{category['id']}}">
+        <h5 class="col-md-2 m-0">{{category['name']}}</h5>
+        <div class="row col-md-10">
+          <div class="row">
+            <div class="row col-md-10">
+              <input
+                class="p-0 category-split-input"
+                type="range"
+                min="0"
+                max="100"
+                step="5"
+                id="split-{{category['id']}}-input"
+              />
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="row">
+                    <p class="col-md-6">Total Amount:</p>
+                    <p
+                      class="col-md-6 text-primary"
+                      id="split-{{category['id']}}-amount"
+                    >
+                      {{100000|rupees}}
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="row">
+                    <p class="col-md-6">Monthly Amount:</p>
+                    <p
+                      class="col-md-6 text-primary"
+                      id="split-{{category['id']}}-monthly"
+                    >
+                      {{100000|rupees}}
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="row">
+                    <p class="col-md-6">Weekly Amount:</p>
+                    <p
+                      class="col-md-6 text-primary"
+                      id="split-{{category['id']}}-weekly"
+                    >
+                      {{100000|rupees}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h5 class="col-md-2 m-0" id="split-{{category['id']}}-input-value">
+              50%
+            </h5>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      <div class="mt-5 d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary me-2">Create</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock main %} {% block script %}
+
+<script>
+
+  $(document).ready(function () {
+
+
+    // prettier-ignore
+    let unbudgeted_amount = {{ unbudgeted }}
+    let budget_amount = 0;
+
+    function update_split_amounts(){
+      $('.category-split').each(function (){
+        let percent = $(`#${this.id}-input`).val();
+        let amount = Math.ceil(budget_amount * (percent / 100))
+        let monthly = Math.floor(amount / 12)
+        let weekly = Math.floor(amount / 52)
+
+        $(`#${this.id}-amount`).text("₹" + amount)
+        $(`#${this.id}-monthly`).text("₹" + monthly)
+        $(`#${this.id}-weekly`).text("₹" + weekly)
+    })
+    }
+
+    update_split_amounts()
+  // make invisible
+  $('.category-split').css('display', 'none');
+
+  // make invisible split visible
+  $('.category-check').change(function () {
+    $(`#split-${this.id}`).css('display', this.checked ? '' : 'none');
+  });
+
+  // update range value to text
+  $('.category-split-input').change(function () {
+    $(`#${this.id}-value`).text(this.value + "%")
+    update_split_amounts();
+  })
+
+  // update budget
+  $('#budget').change(function () {
+    budget_amount = this.value;
+    $("#remaining-budget").text("₹"+ (unbudgeted_amount - budget_amount))
+
+    update_split_amounts()
+
+  })
+
+
+  // validate on submit
+  $('#form').on('submit', function() {
+    console.log(this)
+    let categories_selected=[];
+    $('.category-check').each(function () {
+      if(this.checked){
+          let percent = $(`#split-${this.id}-input`).val()
+          let category = {"id": this.id, "name": this.name, "percent": percent/100}
+          categories_selected.push(category)
+        }
+    });
+
+    console.log(categories_selected)
+    if(categories_selected.length === 0){
+      alert("Please select atleast one category")
+      return false;
+    }
+
+    const cum_percentage = categories_selected.reduce(function(prev, cur){return prev + cur.percent}, 0)
+
+    console.log(cum_percentage)
+
+    if(cum_percentage !== 1){
+      alert("Split does not sum up to 100")
+      return false;
+    }
+    // console.log(this.request.body)
+    $('#form').append(`<input type="hidden" name="categories" value=${JSON.stringify(categories_selected)} /> `);
+    // console.log(this)
+    alert("Submit form")
+    return true;
+  })
+
+  });
+</script>
+
+{% endblock script %}
