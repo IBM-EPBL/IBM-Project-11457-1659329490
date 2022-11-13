@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS user_categories (
 CREATE TABLE IF NOT EXISTS budget_categories (
 	budgets_id	INTEGER NOT NULL,
 	category_id	INTEGER NOT NULL,
-	amount	REAL NOT NULL DEFAULT 0,
+	percent_amount	REAL NOT NULL DEFAULT 0,
 	CONSTRAINT budget_categories_budgets_id_fkey FOREIGN KEY (budgets_id)
 		REFERENCES budgets(id) 
 		ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS payers (
 		ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
-CREATE TABLE "expenses" (
+CREATE TABLE IF NOT EXISTS "expenses" (
 	"id"	INTEGER,
 	"description"	TEXT NOT NULL,
 	"category_id"	INTEGER NOT NULL,

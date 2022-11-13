@@ -5,7 +5,9 @@ from routes import (
     payers,
     categories,
     profile,
-)  # , budgets, reports
+    budgets,
+)  #  reports
+
 import db
 from flask import Flask, render_template, redirect
 from helpers import login_required, rupees, percent, title
@@ -44,7 +46,7 @@ db.init_app(app)
 app.register_blueprint(auth.bp)
 app.register_blueprint(dashboard.bp)
 app.register_blueprint(expenses.bp)
-# app.register_blueprint(budgets.bp)
+app.register_blueprint(budgets.bp)
 app.register_blueprint(categories.bp)
 app.register_blueprint(payers.bp)
 # app.register_blueprint(reports.bp)
