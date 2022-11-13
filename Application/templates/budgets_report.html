@@ -14,11 +14,11 @@
 {% block main %}
 
 <div class="row">
-
+    {% for report in budget_reports %}
     <div class="card mb-3">
         <div class="card-body">
-            <h4 class="card-title">Budget Name</h4>
-            <p class="card-description">Budgeted: <code>{{1000 | rupees}}</code></p>
+            <h4 class="card-title">{{report['name']}}</h4>
+            <p class="card-description">Budgeted: <code>{{report['amount'] | rupees}}</code></p>
         </div>
 
         <div class="row pb-3">
@@ -37,20 +37,23 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {% for expense in report['table'] %}
                             <tr>
-                                <td>1</td>
-                                <td>Tiger Nixon</td>
-                                <td>System Architect</td>
-                                <td>10-09-2022</td>
-                                <td>Living</td>
-                                <td>{{1234|rupees}}</td>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ expense['payer'] }}</td>
+                                <td>{{ expense['category'] }}</td>
+                                <td>{{ expense['date'] }}</td>
+                                <td>{{ expense['description'] }}</td>
+                                <td>{{ expense['amount']|rupees }}</td>
                             </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+    {% endfor %}
 </div>
 
 
