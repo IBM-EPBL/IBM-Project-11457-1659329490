@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-from flask import Blueprint, render_template, request, session, redirect
+from flask import Blueprint, render_template, request, session, redirect, flash
 from helpers import login_required
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -82,5 +82,5 @@ def index():
 
         expense = expenses_utils.add_expense(formData, session["user_id"])
 
-        # Redirect to results page and render a summary of the submitted expenses
+        flash("Expense added successfully !!")
         return redirect("/dashboard")
