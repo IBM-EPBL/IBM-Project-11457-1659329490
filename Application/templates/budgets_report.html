@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}
+
+{% block title %}Budget Report{% endblock title %}
+{% block styles %}
+<style>
+    .table {
+        max-height: 200px;
+    }
+</style>
+{% endblock styles %}
+
+
+
+{% block main %}
+
+<div class="row">
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <h4 class="card-title">Budget Name</h4>
+            <p class="card-description">Budgeted: <code>{{1000 | rupees}}</code></p>
+        </div>
+
+        <div class="row pb-3">
+            <div class="col-md-4"></div>
+            <div class="col-md-8">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered" id="table">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Payer</th>
+                                <th>Category</th>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Tiger Nixon</td>
+                                <td>System Architect</td>
+                                <td>10-09-2022</td>
+                                <td>Living</td>
+                                <td>{{1234|rupees}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock main %}
+
+
+{% block script %} {% endblock script %}
