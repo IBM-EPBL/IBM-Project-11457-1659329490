@@ -1,0 +1,42 @@
+{% extends 'layout.html' %} {% block title %}View Budget{% endblock title %}
+{%block styles %} {% endblock styles %} {% block main %}
+<div class="row">
+  {% for budget in budgets %}
+  <div class="col-md-4 grid-margin grid-margin-md-0 stretch-card my-3">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">{{budget["name"]}}</h4>
+        <p class="card-description">
+          Budgeted: <code>{{budget['amount'] | rupees}}</code>
+        </p>
+
+        {% for category in budget['categories'] %}
+        <div class="row d-flex align-items-center mb-1">
+          <div class="col-md-5">
+            <p class="m-0">{{ category['name'] }}</p>
+          </div>
+
+          <div class="col-md-7">
+            <div class="row d-flex align-items-center">
+              <div class="progress progress-md col-md-7 p-0">
+                <div
+                  class="progress-bar bg-primary"
+                  role="progressbar"
+                  style="width: {{category['amount']}}%"
+                ></div>
+              </div>
+              <p class="text-success col-md-5 m-0">
+                {{category['amount'] | percent }}
+              </p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  {% endfor %}
+</div>
+
+{% endblock main %} {% block script %} {% endblock script %}
