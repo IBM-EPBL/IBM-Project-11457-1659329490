@@ -11,6 +11,7 @@ from utils import (
     payer_utils,
     budget_utils,
     expenses_utils,
+    reports_utils,
 )
 
 bp = Blueprint("dashboard", __name__, url_prefix="/dashboard")
@@ -50,7 +51,9 @@ def index():
         weeks = dashboard_utils.get_last_four_weeks()
         spending_week = dashboard_utils.get_weekly_spendings(weeks, session["user_id"])
 
-        spending_month = dashboard_utils.get_monthly_report(session["user_id"], year)
+        spending_month = reports_utils.get_monthly_report_chart(
+            session["user_id"], year
+        )
 
         spending_trends = dashboard_utils.get_spending_trends(session["user_id"], year)
 

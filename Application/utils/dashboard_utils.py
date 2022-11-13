@@ -92,26 +92,6 @@ def get_weekly_spendings(weeks, user_id):
     return weekly_spendings
 
 
-def get_monthly_report(user_id, year):
-    monthly_report = []
-    month_model = {"name": None, "amount": None}
-
-    results = db.execute(
-        "SELECT strftime('%m', date(date)) AS month, SUM(amount) AS amount FROM expenses WHERE user_id = :user_id AND strftime('%Y', date(date)) = :year GROUP BY strftime('%m', date(date))  ORDER BY month",
-        {"user_id": user_id, "year": year},
-    ).fetchall()
-
-    month_spendings = convertSQLToDict(results)
-
-    for record in month_spendings:
-        month_model["name"] = calendar.month_abbr[int(record["month"])]
-        month_model["amount"] = record["amount"]
-
-        monthly_report.append(month_model.copy())
-
-    return monthly_report
-
-
 def get_spending_trends(user_id, year):
     spending_trends = []
     category_trend = {
