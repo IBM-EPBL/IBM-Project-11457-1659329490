@@ -58,8 +58,18 @@ def get_expenses(user_id):
 
 def get_last_n_expenses(n, user_id):
     result = db.execute(
-        "SELECT description, categories.name as category , date, payers.name as payer, IFNULL(budgets.name, '-') as budget, expenses.amount as amount FROM expenses JOIN categories on categories.id = expenses.category_id JOIN payers on payers.id = expenses.payer_id LEFT OUTER JOIN budgets on budgets.id = expenses.budget_id WHERE expenses.user_id = :user_id ORDER BY expenses.id DESC LIMIT :n",
+        "SELECT description, categories.name as category , date, payers.name as payer, IFNULL(budgets.name, '-') as budget, expenses.amount as amount FROM expenses JOIN categories on categories.id = expenses.category_id JOIN payers on payers.id = expenses.payer_id LEFT OUTER JOIN budgets ON budgets.id = expenses.budget_id WHERE expenses.user_id = :user_id ORDER BY expenses.id DESC LIMIT :n",
         {"user_id": user_id, "n": n},
+    ).fetchall()
+
+    expenses = convertSQLToDict(result)
+    return expenses
+
+
+def get_expenses_by_budget(budget_id):
+    result = db.execute(
+        "SELECT description, categories.name as category , date, payers.name as payer, IFNULL(budgets.name, '-') as budget, expenses.amount as amount FROM expenses JOIN categories on categories.id = expenses.category_id JOIN payers on payers.id = expenses.payer_id LEFT OUTER JOIN budgets ON budgets.id = expenses.budget_id WHERE expenses.budget_id = :budget_id ORDER BY expenses.id",
+        {"budget_id": budget_id},
     ).fetchall()
 
     expenses = convertSQLToDict(result)

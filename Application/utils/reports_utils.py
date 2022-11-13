@@ -15,6 +15,22 @@ engine = create_engine(
 db = scoped_session(sessionmaker(bind=engine))
 
 
+def get_budgets_report(user_id, year):
+    budget_reports = []
+    report = {"table": None, "chart": None, "name": None, "amount": None}
+
+    budgets = budget_utils.get_budgets(user_id, year)
+    for budget in budgets:
+        expenses = expenses_utils.get_expenses_by_budget(budget["id"])
+        report["name"] = budget["name"]
+        report["amount"] = budget["amount"]
+        report["table"] = expenses
+
+        budget_reports.append(report.copy())
+
+    return budget_reports
+
+
 def get_monthly_report(user_id, year):
     month_report_chart = get_monthly_report_chart(user_id, year)
 

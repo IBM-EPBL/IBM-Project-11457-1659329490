@@ -15,10 +15,10 @@ db = scoped_session(sessionmaker(bind=engine))
 
 
 # Get the users budgets
-def get_budgets(user_id):
+def get_budgets(user_id, year):
     results = db.execute(
-        "SELECT id, name, year, amount FROM budgets WHERE user_id = :user_id  ORDER BY name ASC",
-        {"user_id": user_id},
+        "SELECT id, name, year, amount FROM budgets WHERE user_id = :user_id AND year = :year ORDER BY name ASC",
+        {"user_id": user_id, "year": year},
     ).fetchall()
 
     budgets_result_list = convertSQLToDict(results)
