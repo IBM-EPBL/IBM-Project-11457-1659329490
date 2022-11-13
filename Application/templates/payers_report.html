@@ -1,0 +1,50 @@
+{% extends 'layout.html' %} {% block title %}Payers Report{% endblock title %}
+{% block styles %}
+<style>
+  .table {
+    max-height: 600px;
+  }
+</style>
+{% endblock styles %} {% block main %}
+
+<div class="row">
+  <div class="card py-5">
+    <div class="row pb-3">
+      <div class="col-md-6"></div>
+      <div class="col-md-6">
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered" id="table">
+            <thead>
+              <tr>
+                <th>S.No</th>
+                <th>Payer</th>
+                <th>Amount</th>
+                <th>Percentage</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for payer in payers %}
+              <tr>
+                <td>{{loop.index}}</td>
+                <td>{{ payer["name"] }}</td>
+                <td>{{ payer["amount"] | rupees }}</td>
+                <td>{{ payer["percentAmount"] | percent }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+            <tfoot>
+              <tr>
+                <th></th>
+                <th>Total</th>
+                <th>{{ payers | sum(attribute="amount") | rupees }}</th>
+                <th>{{ payers | sum(attribute="percentAmount") | percent}}</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock main %} {% block script %} {% endblock script %}
