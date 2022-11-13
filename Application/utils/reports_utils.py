@@ -82,3 +82,94 @@ def get_payers_report(user_id, year):
             )
 
     return payers_and_amount_spent
+
+
+def get_spendings_report(user_id, year):
+    spending_trends_chart = get_spending_trends(user_id, year)
+
+    categories = []
+    category_model = {"name": None, "month": 0, "count": 0, "amount": 0}
+
+    spending_trends_table = {
+        "January": [],
+        "February": [],
+        "March": [],
+        "April": [],
+        "May": [],
+        "June": [],
+        "July": [],
+        "August": [],
+        "September": [],
+        "October": [],
+        "November": [],
+        "December": [],
+    }
+
+    categories_result = categories_utils.get_user_categories(user_id)
+
+    for category in categories_result:
+        category_model["name"] = category["name"]
+        categories.append(category_model.copy())
+
+    for month in spending_trends_table.keys():
+        spending_trends_table[month] = copy.deepcopy(categories)
+
+    results = db.execute(
+        "SELECT strftime('%m', date(date)) AS month, categories.name AS name, COUNT(*) AS count, SUM(amount) AS amount FROM expenses JOIN categories ON categories.id = expenses.category_id WHERE expenses.user_id = :user_id AND strftime('%Y', date(date)) = :year GROUP BY strftime('%m', date(date)), expenses.category_id ORDER BY COUNT(expenses.category_id) DESC",
+        {"user_id": user_id, "year": year},
+    ).fetchall()
+
+    spending_trends_table_query = convertSQLToDict(results)
+
+    for category_expense in spending_trends_table_query:
+        month = calendar.month_name[int(category_expense["month"])]
+        for category in spending_trends_table[month]:
+            if category["name"] == category_expense["name"]:
+                category["month"] = category_expense["month"]
+                category["count"] = category_expense["count"]
+                category["amount"] = category_expense["amount"]
+                break
+
+    for i in range(len(categories)):
+        category_total = 0
+        for month in spending_trends_table.keys():
+            category_total += spending_trends_table[month][i]["amount"]
+        categories[i]["amount"] = category_total
+
+    spending_trends_report = {
+        "chart": spending_trends_chart,
+        "table": spending_trends_table,
+        "categories": categories,
+    }
+
+    return spending_trends_report
+
+
+def get_spending_trends(user_id, year):
+    spending_trends = []
+    category_trend = {
+        "name": None,
+        "proportional_amount": None,
+        "total_spent": None,
+        "total_count": None,
+    }
+
+    results = db.execute(
+        "SELECT category_id, COUNT(*) as count, SUM(amount) as amount FROM expenses WHERE user_id = :user_id AND strftime('%Y', date(date)) = :year GROUP BY category_id ORDER BY COUNT(*) DESC",
+        {"user_id": user_id, "year": year},
+    ).fetchall()
+    categories = convertSQLToDict(results)
+
+    total_spent = 0
+    for category_expenses in categories:
+        total_spent += category_expenses["amount"]
+
+    for category_expenses in categories:
+        percentage_spent = round((category_expenses["amount"] / total_spent) * 100)
+        category_trend["name"] = category_expenses["category_id"]
+        category_trend["percentage_spent"] = percentage_spent
+        category_trend["total_spent"] = category_expenses["amount"]
+        category_trend["total_count"] = category_expenses["count"]
+        spending_trends.append(category_trend.copy())
+
+    return spending_trends

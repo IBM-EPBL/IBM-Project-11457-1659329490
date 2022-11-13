@@ -37,7 +37,7 @@ def index():
         spending_month = []
         categories = categories_utils.get_user_categories(session["user_id"])
         payers = payer_utils.get_user_payers(session["user_id"])
-        budgets = budget_utils.get_budgets(session["user_id"])
+        budgets = budget_utils.get_budgets(session["user_id"], year)
 
         income = account_utils.get_income(session["user_id"])
         expenses_year = dashboard_utils.get_total_year_spendings(session["user_id"])
@@ -55,9 +55,9 @@ def index():
             session["user_id"], year
         )
 
-        spending_trends = dashboard_utils.get_spending_trends(session["user_id"], year)
+        spending_trends = reports_utils.get_spending_trends(session["user_id"], year)
 
-        # payers_chart = reports_utils.get_payers_report(session["user_id"], year)
+        payers_chart = reports_utils.get_payers_report(session["user_id"], year)
 
         return render_template(
             "dashboard.html",
@@ -74,7 +74,7 @@ def index():
             spending_week=spending_week,
             spending_month=spending_month,
             spending_trends=spending_trends,
-            # payers_chart=payers_chart,
+            payers_chart=payers_chart,
         )
 
     if request.method == "POST":

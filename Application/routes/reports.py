@@ -48,3 +48,19 @@ def payersreport():
     payers_report = reports_utils.get_payers_report(session["user_id"], year)
 
     return render_template("payers_report.html", payers_report=payers_report)
+
+
+@bp.route("/spendings", methods=["GET"])
+@login_required
+def spendings_report():
+    year = str(datetime.now().year)
+
+    spending_report = reports_utils.get_spendings_report(session["user_id"], year)
+
+    return render_template(
+        "spending_report.html",
+        spending_trends_chart=spending_report["chart"],
+        spending_trends_table=spending_report["table"],
+        categories=spending_report["categories"],
+        year=year,
+    )

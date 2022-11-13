@@ -1,4 +1,4 @@
-{% extends 'layout.html' %} {% block title %}Category Report{% endblock title %}
+{% extends 'layout.html' %} {% block title %}Spendings Report{% endblock title %}
 {% block styles %}
 <style>
   .table thead th,
@@ -38,7 +38,7 @@
       </tbody>
       <tfoot>
         <tr>
-          <td></td>
+          <td>Total</td>
           {% for category in categories %}
           <td>{{ category["amount"] | rupees }}</td>
           {% endfor %}

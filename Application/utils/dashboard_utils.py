@@ -90,33 +90,3 @@ def get_weekly_spendings(weeks, user_id):
         weekly_spendings.clear()
 
     return weekly_spendings
-
-
-def get_spending_trends(user_id, year):
-    spending_trends = []
-    category_trend = {
-        "name": None,
-        "proportional_amount": None,
-        "total_spent": None,
-        "total_count": None,
-    }
-
-    results = db.execute(
-        "SELECT category_id, COUNT(*) as count, SUM(amount) as amount FROM expenses WHERE user_id = :user_id AND strftime('%Y', date(date)) = :year GROUP BY category_id ORDER BY COUNT(*) DESC",
-        {"user_id": user_id, "year": year},
-    ).fetchall()
-    categories = convertSQLToDict(results)
-
-    total_spent = 0
-    for category_expenses in categories:
-        total_spent += category_expenses["amount"]
-
-    for category_expenses in categories:
-        percentage_spent = round((category_expenses["amount"] / total_spent) * 100)
-        category_trend["name"] = category_expenses["category_id"]
-        category_trend["percentage_spent"] = percentage_spent
-        category_trend["total_spent"] = category_expenses["amount"]
-        category_trend["total_count"] = category_expenses["count"]
-        spending_trends.append(category_trend.copy())
-
-    return spending_trends
