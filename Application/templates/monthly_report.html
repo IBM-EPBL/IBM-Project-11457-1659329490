@@ -1,0 +1,41 @@
+{% extends 'layout.html' %} {% block title %}Monthly Report{% endblock title %}
+{% block styles %}
+<style>
+  .table-responsive {
+    max-height: 300px;
+  }
+</style>
+{% endblock styles %} {% block main %}
+
+<div class="card row py-5">
+  <div style="height: 300px"></div>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered" id="table">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Payer</th>
+          <th>Category</th>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for record in monthly_report["table"] %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ record["payer"] }}</td>
+          <td>{{ record["category"] }}</td>
+          <td>{{ record["expenseDate"] }}</td>
+          <td>{{ record["description"] }}</td>
+          <td>{{ record["amount"] | rupees}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock main %} {% block script %} {% endblock script %}

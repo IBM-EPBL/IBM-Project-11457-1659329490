@@ -6,7 +6,8 @@ from routes import (
     categories,
     profile,
     budgets,
-)  #  reports
+    reports,
+)
 
 import db
 from flask import Flask, render_template, redirect
@@ -49,5 +50,5 @@ app.register_blueprint(expenses.bp)
 app.register_blueprint(budgets.bp)
 app.register_blueprint(categories.bp)
 app.register_blueprint(payers.bp)
-# app.register_blueprint(reports.bp)
+app.register_blueprint(reports.bp)
 app.register_blueprint(profile.bp)
