@@ -20,6 +20,19 @@ engine = create_engine(
 db = scoped_session(sessionmaker(bind=engine))
 
 
+@bp.route("/view", methods=["GET", "POST"])
+@login_required
+def view_budgets():
+    income = account_utils.get_income(session["user_id"])
+    budgets = budget_utils.get_budgets(session["user_id"])
+    budgeted = budget_utils.get_total_budgeted_amount(session["user_id"])
+    unbudgeted_amount = income - budgeted if income >= budgeted else 0
+
+    return render_template(
+        "view_budgets.html", budgets=budgets, unbudgeted_amount=unbudgeted_amount
+    )
+
+
 @bp.route("/create", methods=["GET", "POST"])
 @login_required
 def create_budget():
@@ -30,11 +43,11 @@ def create_budget():
 
     income = account_utils.get_income(session["user_id"])
     budgeted = budget_utils.get_total_budgeted_amount(session["user_id"])
-    unbudgeted_amout = income - budgeted if income >= budgeted else 0
+    unbudgeted_amount = income - budgeted if income >= budgeted else 0
     categories = categories_utils.get_user_categories(session["user_id"])
 
     return render_template(
         "create_budget.html",
         categories=categories,
-        unbudgeted=unbudgeted_amout,
+        unbudgeted=unbudgeted_amount,
     )
