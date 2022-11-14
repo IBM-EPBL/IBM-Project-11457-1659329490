@@ -23,9 +23,10 @@ def add_expense():
         expenses_utils.add_expense(formData, session["user_id"])
         flash("Expense added successfully")
 
+    year = str(datetime.now().year)
     categories = categories_utils.get_user_categories(session["user_id"])
     payers = payer_utils.get_user_payers(session["user_id"])
-    budgets = budget_utils.get_budgets(session["user_id"])
+    budgets = budget_utils.get_budgets(session["user_id"], year)
 
     date = datetime.today().strftime("%Y-%m-%d")
 
