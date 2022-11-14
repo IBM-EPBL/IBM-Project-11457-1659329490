@@ -37,7 +37,9 @@ def get_payers_and_amount_spent(user_id, year):
     ).fetchall()
 
     payer_with_expenses = convertSQLToDict(payers_with_expenses_results)
-    payers.extend(payer_with_expenses)
+    for payer in payer_with_expenses:
+        payer["name"] = payer["name"].title()
+        payers.append(payer)
 
     payers_without_expenses_result = db.execute(
         "SELECT name FROM payers WHERE user_id = :user_id AND id NOT IN (SELECT payer_id FROM expenses WHERE expenses.user_id = :user_id AND strftime('%Y', date(date)) = :year)",
@@ -45,6 +47,6 @@ def get_payers_and_amount_spent(user_id, year):
     ).fetchall()
     payers_without_expenses = convertSQLToDict(payers_without_expenses_result)
     for payer in payers_without_expenses:
-        payers.append({"name": payer["name"], "amount": 0})
+        payers.append({"name": payer["name"].title(), "amount": 0})
 
     return payers
