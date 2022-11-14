@@ -48,7 +48,7 @@ def index():
 
         expenses_last5 = expenses_utils.get_last_n_expenses(5, session["user_id"])
 
-        weeks = dashboard_utils.get_last_four_weeks()
+        weeks = dashboard_utils.get_last_n_weeks(5)
         spending_week = dashboard_utils.get_weekly_spendings(weeks, session["user_id"])
 
         spending_month = reports_utils.get_monthly_report_chart(
