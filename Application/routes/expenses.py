@@ -1,11 +1,6 @@
 import os
 from datetime import datetime
-from flask import (
-    Blueprint,
-    render_template,
-    request,
-    session,
-)
+from flask import Blueprint, render_template, request, session, flash
 from helpers import login_required
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -26,6 +21,7 @@ def add_expense():
     if request.method == "POST":
         formData = dict(request.form.items())
         expenses_utils.add_expense(formData, session["user_id"])
+        flash("Expense added successfully")
 
     categories = categories_utils.get_user_categories(session["user_id"])
     payers = payer_utils.get_user_payers(session["user_id"])

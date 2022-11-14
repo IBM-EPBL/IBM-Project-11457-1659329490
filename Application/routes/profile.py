@@ -1,5 +1,5 @@
 import os
-from flask import Blueprint, render_template, request, session, redirect
+from flask import Blueprint, render_template, request, session, redirect, flash
 from helpers import login_required
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -33,6 +33,7 @@ def update_username():
         name = request.form["name"].strip()
         account_utils.update_username(name, session["user_id"])
         session["username"] = name
+        flash("Username updated.")
 
     return redirect("/profile")
 
@@ -43,6 +44,7 @@ def update_income():
     if request.method == "POST":
         formData = request.form
         account_utils.update_income(formData["income"], session["user_id"])
+        flash("Income updated.")
 
     return redirect("/profile")
 
@@ -55,5 +57,6 @@ def update_password():
         account_utils.update_password(
             formData["old_password"], formData["new_password"], session["user_id"]
         )
+        flash("Password updated.")
 
     return redirect("/profile")

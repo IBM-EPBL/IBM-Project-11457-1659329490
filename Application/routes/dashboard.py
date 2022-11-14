@@ -82,5 +82,5 @@ def index():
 
         expenses_utils.add_expense(formData, session["user_id"])
 
-        flash("Expense added successfully !!")
+        flash("Expense added successfully.")
         return redirect("/dashboard")

@@ -1,8 +1,9 @@
 import os
 import json
+from datetime import datetime
 from flask import (
     Blueprint,
-    redirect,
+    flash,
     render_template,
     request,
     session,
@@ -23,8 +24,9 @@ db = scoped_session(sessionmaker(bind=engine))
 @bp.route("/view", methods=["GET", "POST"])
 @login_required
 def view_budgets():
+    year = str(datetime.now().year)
     income = account_utils.get_income(session["user_id"])
-    budgets = budget_utils.get_budgets(session["user_id"])
+    budgets = budget_utils.get_budgets(session["user_id"], year)
     budgeted = budget_utils.get_total_budgeted_amount(session["user_id"])
     unbudgeted_amount = income - budgeted if income >= budgeted else 0
 
@@ -40,6 +42,7 @@ def create_budget():
         formData = dict(request.form)
         formData["categories"] = json.loads(formData["categories"])
         budget_utils.create_budget(formData, session["user_id"])
+        flash("Budget created successfully")
 
     income = account_utils.get_income(session["user_id"])
     budgeted = budget_utils.get_total_budgeted_amount(session["user_id"])

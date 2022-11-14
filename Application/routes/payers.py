@@ -1,10 +1,5 @@
 import os
-from flask import (
-    Blueprint,
-    render_template,
-    request,
-    session,
-)
+from flask import Blueprint, render_template, request, session, flash
 from helpers import login_required
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -31,4 +26,5 @@ def add_payer():
     if request.method == "POST":
         name = request.form["name"]
         payer_utils.add_payer(name, session["user_id"])
+        flash("Payer added successfully.")
     return render_template("add_payer.html")

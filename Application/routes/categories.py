@@ -1,10 +1,5 @@
 import os
-from flask import (
-    Blueprint,
-    render_template,
-    request,
-    session,
-)
+from flask import Blueprint, render_template, request, session, flash
 from helpers import login_required
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -32,5 +27,6 @@ def add_category():
         name = request.form["name"]
         id = categories_utils.add_category(name)
         categories_utils.add_category_to_user(id, session["user_id"])
+        flash("Category created successfully.")
 
     return render_template("add_category.html")
