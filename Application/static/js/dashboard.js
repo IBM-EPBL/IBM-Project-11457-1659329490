@@ -84,7 +84,26 @@ function load_category_trend(data){
 }
 
 function load_monthly_chart(data){
-    console.log(data)
+    var myChart = echarts.init(document.getElementById('monthly-chart'));
+    var option = {
+        tooltip: {},
+        legend: {}, 
+        dataset:{
+            source: data
+        },
+        xAxis: {
+            type: 'category',
+            
+          },
+          yAxis: {},
+          series: {
+            type: 'bar',
+            encode: { x: 'name', y: 'amount' },
+
+          }
+    };
+
+    myChart.setOption(option);
 }
 
 function load_weekly_chart(data){

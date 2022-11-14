@@ -59,13 +59,24 @@ def get_monthly_report_chart(user_id, year):
 
     month_spendings = convertSQLToDict(results)
 
+    months_with_data = []
     for record in month_spendings:
-        month_model["name"] = calendar.month_abbr[int(record["month"])]
+        month_model["name"] = calendar.month_name[int(record["month"])]
         month_model["amount"] = record["amount"]
 
+        months_with_data.append(month_model["name"])
         monthly_report.append(month_model.copy())
 
-    return monthly_report
+    chart_data = []
+    for month in calendar.month_name[1:]:
+        if month not in months_with_data:
+            month_model["name"] = month
+            month_model["amount"] = 0
+            chart_data.append(month_model.copy())
+        else:
+            chart_data.append(monthly_report.pop(0))
+
+    return chart_data
 
 
 def get_payers_report(user_id, year):
