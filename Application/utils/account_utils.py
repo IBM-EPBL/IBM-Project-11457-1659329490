@@ -14,14 +14,16 @@ db = scoped_session(sessionmaker(bind=engine))
 
 def register_user(form_data):
     username = form_data.get("username").strip()
+    email = form_data.get("email").strip()
     password = form_data.get("password")
     password_hash = generate_password_hash(password)
     now = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
     db.execute(
-        "INSERT INTO users (username, password_hash, register_date, last_login) VALUES (:username, :password_hash, :register_date, :last_login)",
+        "INSERT INTO users (username, email, password_hash, register_date, last_login) VALUES (:username, :email, :password_hash, :register_date, :last_login)",
         {
             "username": username,
             "password_hash": password_hash,
+            "email": email,
             "register_date": now,
             "last_login": now,
         },
@@ -39,10 +41,10 @@ def register_user(form_data):
     return user_id
 
 
-def get_user(username):
+def get_user(email):
     user = db.execute(
-        "SELECT * FROM users WHERE username = :username",
-        {"username": username},
+        "SELECT * FROM users WHERE email = :email",
+        {"email": email},
     ).fetchone()
     return user
 
@@ -56,10 +58,10 @@ def update_user_login_time(user_id):
     db.commit()
 
 
-def is_existing_user(username):
+def is_existing_user(email):
     account = db.execute(
-        "SELECT username FROM users WHERE LOWER(username) = :username",
-        {"username": username.lower()},
+        "SELECT email FROM users WHERE LOWER(email) = :email",
+        {"email": email.lower()},
     ).fetchone()
 
     return True if account else False

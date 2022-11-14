@@ -78,9 +78,9 @@ def index():
         )
 
     if request.method == "POST":
-        formData = dict(request.form.items())
+        formData = dict(request.form)
 
-        expense = expenses_utils.add_expense(formData, session["user_id"])
+        expenses_utils.add_expense(formData, session["user_id"])
 
         flash("Expense added successfully !!")
         return redirect("/dashboard")

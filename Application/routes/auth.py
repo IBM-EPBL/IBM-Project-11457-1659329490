@@ -1,11 +1,5 @@
 import os
-from flask import (
-    Blueprint,
-    redirect,
-    render_template,
-    request,
-    session,
-)
+from flask import Blueprint, redirect, render_template, request, session, flash
 from utils import account_utils
 from werkzeug.security import check_password_hash
 from sqlalchemy import create_engine
@@ -25,50 +19,49 @@ def register():
         return render_template("register.html")
 
     if request.method == "POST":
-        # check if the user already exist
+        email = request.form.get("email").strip()
         username = request.form.get("username").strip()
-        existing_user = account_utils.is_existing_user(username)
+        existing_user = account_utils.is_existing_user(email)
         if existing_user:
-            return render_template("register.html", username=username)
+            flash("Email already exists.", "error")
+            return render_template("register.html")
 
         user_id = account_utils.register_user(request.form)
 
-        # add user to session for login.
         session["user_id"] = user_id
         session["username"] = username
 
+        flash("User registeration successful.")
         return redirect("/")
 
 
 @bp.route("/login", methods=["GET", "POST"])
 def login():
-    session.clear()
 
     if request.method == "GET":
         return render_template("login.html")
 
     if request.method == "POST":
-        # Query database for username
-        username = request.form.get("username")
-        user = account_utils.get_user(username)
+        email = request.form.get("email")
+        user = account_utils.get_user(email)
 
         if not user or not check_password_hash(
             user["password_hash"], request.form.get("password")
         ):
-            return "wrong password or username"
+            flash("Incorrect email or password.", "error")
+            return render_template("login.html")
 
-        # add user to session for login.
+        flash("User login successful.")
         session["user_id"] = user["id"]
         session["username"] = user["username"]
 
-        # Record the login time
-        account_utils.update_user_login_time(session["user_id"])
+        account_utils.update_user_login_time(user["id"])
 
-        # Redirect user to home page
         return redirect("/")
 
 
 @bp.route("/logout")
 def logout():
     session.clear()
-    return redirect("/")
+    flash("User logged out.")
+    return redirect("/auth/login")
