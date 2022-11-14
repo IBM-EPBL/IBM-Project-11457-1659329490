@@ -52,10 +52,10 @@ def week_range(date):
     return {"start": start_date, "end": end_date}
 
 
-def get_last_four_weeks():
+def get_last_n_weeks(n):
     cur = datetime.datetime.now()
     weeks = []
-    for i in range(4):
+    for i in range(n):
         weeks.append(week_range(cur - datetime.timedelta(weeks=i)))
 
     return weeks
@@ -89,4 +89,9 @@ def get_weekly_spendings(weeks, user_id):
     if hasExpenses is False:
         weekly_spendings.clear()
 
-    return weekly_spendings
+
+    chart = []
+    for spending in weekly_spendings:
+        chart.append([spending['start'] + "-" + spending['end'], spending['amount']])
+
+    return chart
