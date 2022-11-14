@@ -149,13 +149,11 @@ def get_spending_trends(user_id, year):
     spending_trends = []
     category_trend = {
         "name": None,
-        "proportional_amount": None,
-        "total_spent": None,
-        "total_count": None,
+        "series": None,
     }
 
     results = db.execute(
-        "SELECT category_id, COUNT(*) as count, SUM(amount) as amount FROM expenses WHERE user_id = :user_id AND strftime('%Y', date(date)) = :year GROUP BY category_id ORDER BY COUNT(*) DESC",
+        "SELECT categories.name as name, COUNT(*) as count, SUM(amount) as amount FROM expenses JOIN categories ON categories.id = expenses.category_id WHERE user_id = :user_id AND strftime('%Y', date(date)) = :year GROUP BY category_id  ORDER BY COUNT(*) DESC",
         {"user_id": user_id, "year": year},
     ).fetchall()
     categories = convertSQLToDict(results)
@@ -166,10 +164,9 @@ def get_spending_trends(user_id, year):
 
     for category_expenses in categories:
         percentage_spent = round((category_expenses["amount"] / total_spent) * 100)
-        category_trend["name"] = category_expenses["category_id"]
-        category_trend["percentage_spent"] = percentage_spent
-        category_trend["total_spent"] = category_expenses["amount"]
-        category_trend["total_count"] = category_expenses["count"]
+        category_trend["name"] = category_expenses["name"]
+        category_trend["series"] = [category_expenses["amount"], category_expenses["count"], percentage_spent, category_expenses["name"]]
+
         spending_trends.append(category_trend.copy())
 
     return spending_trends
