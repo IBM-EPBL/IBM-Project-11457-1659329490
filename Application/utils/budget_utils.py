@@ -27,6 +27,7 @@ def get_budgets(user_id, year):
 
     for budget in budgets_result_list:
         categories = get_categories_by_budget_id(budget["id"])
+        
         budgets.append(
             {
                 "amount": budget["amount"],
