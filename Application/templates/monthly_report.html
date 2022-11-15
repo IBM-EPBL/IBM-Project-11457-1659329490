@@ -7,8 +7,9 @@
 </style>
 {% endblock styles %} {% block main %}
 
-<div class="card row py-5">
-  <div style="height: 300px"></div>
+<div class="card row p-5">
+  <h4>Monthly Report</h4>
+  <div id="monthly-chart" style="width:100%;height: 400px"></div>
 
   <div class="table-responsive">
     <table class="table table-striped table-bordered" id="table">
@@ -38,4 +39,12 @@
   </div>
 </div>
 
-{% endblock main %} {% block script %} {% endblock script %}
+{% endblock main %}
+{% block script %}
+{% if monthly_report['chart'] %}
+<script>
+  var monthly_chart_data = {{ monthly_report['chart'] | tojson }};
+  load_monthly_chart(monthly_chart_data);
+</script>
+{% endif %}
+{% endblock script %}
