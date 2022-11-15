@@ -89,11 +89,12 @@ def get_payers_report(user_id, year):
     for payer in payers_and_amount_spent:
         total_amount_spent = total_amount_spent + payer["amount"]
 
-    if total_amount_spent != 0:
-        for payer in payers_and_amount_spent:
-            payer["percent_amount"] = round(
-                (payer["amount"] / total_amount_spent) * 100
-            )
+    for payer in payers_and_amount_spent:
+        payer["percent_amount"] = (
+            round((payer["amount"] / total_amount_spent) * 100)
+            if total_amount_spent != 0
+            else 100
+        )
 
     return payers_and_amount_spent
 
