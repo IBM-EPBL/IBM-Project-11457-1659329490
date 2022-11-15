@@ -6,6 +6,8 @@
     <div class="card-body">
       <h4 class="card-title">Expense History</h4>
       <p class="card-description">List of all the expenses you have made</p>
+
+      {% if expenses %}
       <div class="table-responsive">
         <table class="table table-striped" id="table">
           <thead>
@@ -34,6 +36,10 @@
           </tbody>
         </table>
       </div>
+      {% else %}
+      <span>Please add expenses to see here</span>
+      {% endif %}
+
     </div>
   </div>
 </div>
