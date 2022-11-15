@@ -71,6 +71,7 @@ def index():
             expenses_week=expenses_week,
             expenses_last5=expenses_last5,
             budgets=budgets,
+            budgets_report=budgets[:4],
             spending_week=spending_week,
             spending_month=spending_month,
             spending_trends=spending_trends,

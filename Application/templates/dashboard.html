@@ -243,7 +243,7 @@
           <h3 class="card-title card-title-dash mb-3">Budgets</h3>
           <div class="row flex-grow">
 
-            {% for budget in budgets %}
+            {% for budget in budgets_report %}
 
             <div class="col-3 grid-margin stretch-card">
               <div class="card card-rounded">
@@ -352,9 +352,9 @@
 {% endblock main %}
 
 {% block script %}
-{% if budgets %}
+{% if budgets_report %}
 <script>
-  var budget_chart_data = {{ budgets | tojson }};
+  var budget_chart_data = {{ budgets_report | tojson }};
   load_budget_chart(budget_chart_data);
 </script>
 {% endif %}
@@ -382,8 +382,8 @@
 
 {% if payers_chart %}
 <script>
-  var payersData = {{ payers_chart | tojson }};
-  load_payers_chart(payersData);
+  var payer_chart_data = {{ payers_chart | tojson }};
+  load_payers_chart(payer_chart_data);
 </script>
 {% endif %}
 {% endblock script %}
