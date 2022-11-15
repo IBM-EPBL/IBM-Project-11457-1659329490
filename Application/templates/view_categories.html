@@ -13,6 +13,7 @@
             <div class="card-body">
                 <h3 class="card-title">Category List</h3>
                 <p class="card-description">List of categories to plan budget</p>
+                {% if categories %}
                 <ul class="list-star">
                     {% for category in categories%}
 
@@ -21,6 +22,10 @@
                     {%endfor%}
 
                 </ul>
+                {% else %}
+                <span>Please add categories to see here</span>
+                {% endif %}
+
             </div>
         </div>
     </div>
