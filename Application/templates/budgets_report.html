@@ -14,6 +14,8 @@
 {% block main %}
 
 <div class="row">
+
+    {% if not budget_reports['reports'] %}
     {% for budget_report in budget_reports['reports'] %}
     <div class="card mb-3">
         <div class="card-body">
@@ -56,6 +58,13 @@
         </div>
     </div>
     {% endfor %}
+    {% else %}
+    <div class="row card card-rounded m-1">
+        <div class="card-body">
+            <span>Create budgets to see reports</span>
+        </div>
+    </div>
+    {% endif %}
 </div>
 
 
