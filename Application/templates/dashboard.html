@@ -124,7 +124,7 @@
                   {{ date[:4] }} Expense
                 </h4>
 
-                {% if expenses_year != None %}
+                {% if expenses_year %}
                 <h2 class="text-info">{{expenses_year | rupees}}</h2>
                 {% else %}
                 <p>You have no expenses yet.</p>
@@ -139,7 +139,7 @@
                 <h4 class="card-title card-title-dash text-white mb-4">
                   Monthly Expenses
                 </h4>
-                {% if expenses_month != None %}
+                {% if expenses_month %}
                 <h2 class="text-info">{{ expenses_month | rupees }}</h2>
                 {% else %}
                 <p>You have no expenses yet.</p>
@@ -154,7 +154,7 @@
                 <h4 class="card-title card-title-dash text-white mb-4">
                   Weekly Expenses
                 </h4>
-                {% if expenses_week != None %}
+                {% if expenses_week %}
 
                 <h2 class="text-info">{{ expenses_week | rupees }}</h2>
                 {% else %}
@@ -172,7 +172,7 @@
               <div class="row flex-grow">
                 <div class="col-12 col-lg-4 col-lg-12 grid-margin stretch-card">
                   <div class="card card-rounded">
-                    <div class="card-body" style="height: 500px;">
+                    <div class="card-body">
                       <div class="d-sm-flex justify-content-between align-items-start">
                         <div>
                           <h4 class="card-title card-title-dash">
@@ -180,7 +180,12 @@
                           </h4>
                         </div>
                       </div>
+
+                      {% if spending_week == None%}
                       <div id="weekly-chart" style="width: 100%; height: 430px"></div>
+                      {% else %}
+                      <span>Make expenses to see the chart</span>
+                      {% endif %}
                     </div>
                   </div>
                 </div>
@@ -199,11 +204,15 @@
                       <h4 class="card-title card-title-dash">
                         Last 5 Expenses
                       </h4>
+                      {% if spending_week == None%}
                       <p class="card-subtitle card-subtitle-dash">
                         <a href="/expenses/view">View all Expenses</a>
                       </p>
+                      {% endif %}
                     </div>
                   </div>
+
+                  {% if spending_week == None%}
                   <div class="table-responsive mt-1">
                     <table class="table table-striped table-bordered">
                       <thead>
@@ -232,6 +241,10 @@
                       </tbody>
                     </table>
                   </div>
+                  {% else %}
+                  <span>Make expenses to see the table</span>
+                  {% endif %}
+
                 </div>
               </div>
             </div>
@@ -241,7 +254,15 @@
 
           <!-- Budget -->
           <h3 class="card-title card-title-dash mb-3">Budgets</h3>
+          {% if not budgets_report %}
+          <div class="row card card-rounded m-1">
+            <div class="card-body">
+              <span>Create budgets to view here</span>
+            </div>
+          </div>
+          {% endif %}
           <div class="row flex-grow">
+
 
             {% for budget in budgets_report %}
 
@@ -271,7 +292,7 @@
               <div class="row flex-grow">
                 <div class="col-12 col-lg-4 col-lg-12 grid-margin stretch-card">
                   <div class="card card-rounded">
-                    <div class="card-body" style="height: 500px">
+                    <div class="card-body">
                       <div class="d-sm-flex justify-content-between align-items-start">
                         <div>
                           <h4 class="card-title card-title-dash">
@@ -281,7 +302,12 @@
                         </div>
 
                       </div>
+
+                      {% if spending_week == None%}
                       <div id="spendings-chart" class="mt-5" style="width: 100%;height: 410px">
+                        {% else %}
+                        <span>Make expenses to see the chart</span>
+                        {% endif %}
 
                       </div>
                     </div>
@@ -298,7 +324,7 @@
               <div class="row flex-grow">
                 <div class="col-12 col-lg-4 col-lg-12 grid-margin stretch-card">
                   <div class="card card-rounded">
-                    <div class="card-body" style="height: 500px">
+                    <div class="card-body">
                       <div class="d-sm-flex justify-content-between align-items-start">
                         <div>
                           <h4 class="card-title card-title-dash">
@@ -306,7 +332,11 @@
                           </h4>
                         </div>
                       </div>
+                      {% if spending_week == None%}
                       <div id="monthly-chart" style="width: 100%;height: 430px">
+                        {% else %}
+                        <span>Make expenses to see the chart</span>
+                        {% endif %}
 
                       </div>
                     </div>
@@ -323,7 +353,7 @@
               <div class="row flex-grow">
                 <div class="col-12 col-lg-4 col-lg-12 grid-margin stretch-card">
                   <div class="card card-rounded">
-                    <div class="card-body" style="height: 500px">
+                    <div class="card-body">
                       <div class="d-sm-flex justify-content-between align-items-start">
                         <div>
                           <h4 class="card-title card-title-dash">
@@ -332,8 +362,11 @@
                         </div>
 
                       </div>
+                      {% if spending_week == None%}
                       <div id="payers-chart" class="m-auto" style="height: 100%; width: 430px">
-
+                        {% else %}
+                        <span>Make expenses to see the chart</span>
+                        {% endif %}
                       </div>
                     </div>
                   </div>
