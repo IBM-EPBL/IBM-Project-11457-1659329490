@@ -11,7 +11,11 @@
 
 <div class="card row p-5">
   <h4>Spending Report</h4>
+  {% if spending_trends_chart %}
   <div id="spendings-chart" style="width:100%;height: 500px"></div>
+  {% else %}
+  <span class="my-5">Create expenses to see chart</span>
+  {% endif %}
 
   <div class="table-responsive">
     <table class="table table-striped table-bordered" id="table">

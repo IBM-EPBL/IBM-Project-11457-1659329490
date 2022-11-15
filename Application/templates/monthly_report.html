@@ -9,6 +9,7 @@
 
 <div class="card row p-5">
   <h4>Monthly Report</h4>
+  {% if monthly_report['table'] %}
   <div id="monthly-chart" style="width:100%;height: 500px"></div>
 
   <div class="table-responsive" style="height: 500px;">
@@ -37,6 +38,9 @@
       </tbody>
     </table>
   </div>
+  {% else %}
+  <span>Create expenses to see reports</span>
+  {% endif %}
 </div>
 
 {% endblock main %}

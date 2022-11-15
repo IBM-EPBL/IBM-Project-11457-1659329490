@@ -255,7 +255,7 @@
           <!-- Budget -->
           <h3 class="card-title card-title-dash mb-3">Budgets</h3>
           {% if not budgets_report %}
-          <div class="row card card-rounded m-1 mb-5">
+          <div class="row card card-rounded m-1 mb-4">
             <div class="card-body">
               <span>Create budgets to view here</span>
             </div>
@@ -304,7 +304,7 @@
 
                       </div>
 
-                      {% if spending_trends %}
+                      {% if expenses_year %}
                       <div id="spendings-chart" class="mt-5" style="width: 100%;height: 410px">
                         {% else %}
                         <span>Make expenses to see the chart</span>
@@ -333,7 +333,7 @@
                           </h4>
                         </div>
                       </div>
-                      {% if spending_month %}
+                      {% if expenses_year %}
                       <div id="monthly-chart" style="width: 100%;height: 430px">
                         {% else %}
                         <span>Make expenses to see the chart</span>
