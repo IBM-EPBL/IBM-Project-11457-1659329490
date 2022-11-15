@@ -13,12 +13,18 @@
             <div class="card-body">
                 <h3 class="card-title">Payer List</h3>
                 <p class="card-description">List of Payer in budget plan</p>
+
+                {% if payers %}
                 <ul class="list-star">
                     {% for payer in payers %}
                     <li>{{payer['name'] | title}}</li>
 
                     {%endfor%}
                 </ul>
+                {% else %}
+                <span>Please add payers to see here</span>
+                {% endif %}
+
             </div>
         </div>
     </div>
