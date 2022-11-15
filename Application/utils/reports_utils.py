@@ -22,19 +22,22 @@ db = scoped_session(sessionmaker(bind=engine))
 
 
 def get_budgets_report(user_id, year):
-    budget_reports = []
-    report = {"table": None, "chart": None, "name": None, "amount": None}
+    reports = []
+    charts = []
+    report = {"table": None, "name": None, "amount": None}
 
     budgets = budget_utils.get_budgets(user_id, year)
+    charts.extend(budgets)
     for budget in budgets:
         expenses = expenses_utils.get_expenses_by_budget(budget["id"])
         report["name"] = budget["name"]
+        report["id"] = budget["id"]
         report["amount"] = budget["amount"]
         report["table"] = expenses
 
-        budget_reports.append(report.copy())
+        reports.append(report.copy())
 
-    return budget_reports
+    return {"reports": reports, "charts": charts}
 
 
 def get_monthly_report(user_id, year):
@@ -176,7 +179,12 @@ def get_spending_trends(user_id, year):
     for category_expenses in categories:
         percentage_spent = round((category_expenses["amount"] / total_spent) * 100)
         category_trend["name"] = category_expenses["name"]
-        category_trend["series"] = [category_expenses["amount"], category_expenses["count"], percentage_spent, category_expenses["name"]]
+        category_trend["series"] = [
+            category_expenses["amount"],
+            category_expenses["count"],
+            percentage_spent,
+            category_expenses["name"],
+        ]
 
         spending_trends.append(category_trend.copy())
 

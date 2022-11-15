@@ -180,7 +180,7 @@
                           </h4>
                         </div>
                       </div>
-                        <div id="weekly-chart" style="width: 100%; height: 430px"></div>
+                      <div id="weekly-chart" style="width: 100%; height: 430px"></div>
                     </div>
                   </div>
                 </div>
@@ -254,7 +254,7 @@
                       <p class="card-description">
                         Budgeted: <code>{{budget['amount'] | rupees}}</code>
                       </p>
-                      <div id="budget-{{budget['id']}}" style="width: 200px; height:200px"></div>
+                      <div id="budget-chart-{{budget['id']}}" style="width: 200px; height:200px"></div>
                     </div>
                   </div>
                 </div>
@@ -277,12 +277,12 @@
                           <h4 class="card-title card-title-dash">
                             Spending Habits
                           </h4>
-            
+
                         </div>
-                        
+
                       </div>
-                      <div id = "spendings-chart" class="mt-5" style="width: 100%;height: 410px">
-                        
+                      <div id="spendings-chart" class="mt-5" style="width: 100%;height: 410px">
+
                       </div>
                     </div>
                   </div>
@@ -307,7 +307,7 @@
                         </div>
                       </div>
                       <div id="monthly-chart" style="width: 100%;height: 430px">
-                        
+
                       </div>
                     </div>
                   </div>
@@ -330,10 +330,10 @@
                             Payers Chart
                           </h4>
                         </div>
-                
+
                       </div>
                       <div id="payers-chart" class="m-auto" style="height: 100%; width: 430px">
-                
+
                       </div>
                     </div>
                   </div>
@@ -341,7 +341,7 @@
               </div>
             </div>
 
-           
+
           </div>
           <!-- end weekly & payers spendings -->
         </div>
@@ -352,41 +352,38 @@
 {% endblock main %}
 
 {% block script %}
-
-<script src = "/static/js/dashboard.js" > </script>
-
 {% if budgets %}
 <script>
-    var budgetData = {{ budgets | tojson }};
-    load_budget_chart(budgetData);
+  var budget_chart_data = {{ budgets | tojson }};
+  load_budget_chart(budget_chart_data);
 </script>
 {% endif %}
 
 {% if spending_week %}
 <script>
-    var weeklyData = {{ spending_week | tojson }};
-    load_weekly_chart(weeklyData);
+  var weekly_chart_data = {{ spending_week | tojson }};
+  load_weekly_chart(weekly_chart_data);
 </script>
 {% endif %}
 
 {% if spending_month %}
 <script>
-    var monthlyData = {{ spending_month | tojson }};
-    load_monthly_chart(monthlyData);
+  var monthly_chart_data = {{ spending_month | tojson }};
+  load_monthly_chart(monthly_chart_data);
 </script>
 {% endif %}
 
 {% if spending_trends %}
 <script>
-    var trendsData = {{ spending_trends | tojson }};
-    load_category_trend(trendsData);
+  var trend_chart_data = {{ spending_trends | tojson }};
+  load_category_trend(trend_chart_data);
 </script>
 {% endif %}
 
 {% if payers_chart %}
 <script>
-    var payersData = {{ payers_chart | tojson }};
-    load_payers_chart(payersData);
+  var payersData = {{ payers_chart | tojson }};
+  load_payers_chart(payersData);
 </script>
 {% endif %}
 {% endblock script %}

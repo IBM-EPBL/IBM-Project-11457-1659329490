@@ -14,16 +14,18 @@
 {% block main %}
 
 <div class="row">
-    {% for report in budget_reports %}
+    {% for budget_report in budget_reports['reports'] %}
     <div class="card mb-3">
         <div class="card-body">
-            <h4 class="card-title">{{report['name']}}</h4>
-            <p class="card-description">Budgeted: <code>{{report['amount'] | rupees}}</code></p>
+            <h4 class="card-title">{{budget_report['name']}}</h4>
+            <p class="card-description">Budgeted: <code>{{budget_report['amount'] | rupees}}</code></p>
         </div>
 
         <div class="row pb-3">
-            <div class="col-md-4"></div>
-            <div class="col-md-8">
+            <div class="col-md-4">
+                <div id="budget-chart-{{budget_report['id']}}" style="width: 100%; height: 350px"></div>
+            </div>
+            <div class="col-md-8" style="height: 350px;">
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered" id="table">
                         <thead>
@@ -37,7 +39,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for expense in report['table'] %}
+                            {% for expense in budget_report['table'] %}
                             <tr>
                                 <td>{{ loop.index }}</td>
                                 <td>{{ expense['payer'] }}</td>
@@ -60,4 +62,12 @@
 {% endblock main %}
 
 
-{% block script %} {% endblock script %}
+{% block script %}
+<script>
+    {% if budget_reports['charts'] %}
+    var budget_chart_data = {{ budget_reports['charts'] | tojson }};
+    load_budget_chart(budget_chart_data, true);
+    console.log("hello")
+    {% endif %}
+</script>
+{% endblock script %}

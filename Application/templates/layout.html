@@ -72,7 +72,7 @@
     crossorigin="anonymous"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.js"></script>
-  
+
   <script>
 
     let msgs = {{ get_flashed_messages(category_filter = ["message"]) | tojson }}
@@ -107,6 +107,7 @@
       }).showToast()
     })
   </script>
+  <script src="/static/js/report.js"> </script>
 
   {% block script %}{% endblock script %}
 </body>
