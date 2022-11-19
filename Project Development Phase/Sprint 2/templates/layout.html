@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>{% block title %}{% endblock title %}</title>
+  <link rel="shortcut icon" href="/static/images/favicon.png" />
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@3.6.95/css/materialdesignicons.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css" />
+
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.css">
+
+  <link rel="stylesheet" href="/static/css/vendor.bundle.base.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+
+
+  <style>
+    .fixed-sidebar {
+      max-height: calc(100vh - 97px);
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    .main-panel {
+      max-height: calc(100vh - 97px);
+      overflow-x: hidden;
+      overflow-y: scroll;
+    }
+
+    .sidebar .nav.sub-menu .nav-item::before {
+      display: none;
+    }
+  </style>
+
+  {% block styles %} {% endblock styles %}
+</head>
+
+<body>
+
+  <div class="container-scroller">
+    {% include 'topbar.html' %}
+
+    <div class="container-fluid page-body-wrapper">
+      {% include 'sidebar.html' %}
+
+      <div class="main-panel">
+        <div class="content-wrapper">
+          {% block main %} {% endblock main %}
+        </div>
+      </div>
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+
+  <script src="/static/js/vendor.bundle.base.js"></script>
+  <script src="/static/js/sidebar.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.js"></script>
+
+  <script>
+
+    let msgs = {{ get_flashed_messages(category_filter = ["message"]) | tojson }}
+    let errors = {{ get_flashed_messages(category_filter = ["error"]) | tojson }}
+
+    msgs.forEach(msg => {
+      Toastify({
+        text: msg,
+        duration: 5000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        stopOnFocus: true,
+        style: {
+          background: "linear-gradient(to right, #00b09b, #96c93d)",
+        },
+      }).showToast()
+    })
+
+
+    errors.forEach(error => {
+      Toastify({
+        text: error,
+        duration: 5000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        stopOnFocus: true,
+        style: {
+          background: "linear-gradient(to right, #93291E,#ED213A)",
+        },
+      }).showToast()
+    })
+  </script>
+  <script src="/static/js/report.js"> </script>
+
+  <script>
+    window.watsonAssistantChatOptions = {
+      integrationID: "39f141bb-b021-4a2b-9734-21e5beab36f3", // The ID of this integration.
+      region: "au-syd", // The region your integration is hosted in.
+      serviceInstanceID: "ad12beb4-8c36-4b59-9b91-d9d03ae5bff2", // The ID of your service instance.
+      onLoad: function (instance) { instance.render(); }
+    };
+    setTimeout(function () {
+      const t = document.createElement('script');
+      t.src = "https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";
+      document.head.appendChild(t);
+    });
+  </script>
+  {% block script %}{% endblock script %}
+</body>
+
+</html>

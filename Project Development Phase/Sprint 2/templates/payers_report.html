@@ -1,0 +1,60 @@
+{% extends 'layout.html' %} {% block title %}Payers Report{% endblock title %}
+{% block styles %}
+<style>
+  .table {
+    max-height: 600px;
+  }
+</style>
+{% endblock styles %} {% block main %}
+
+<div class="row">
+  <div class="card py-5">
+    <div class="row pb-3">
+      <div class="col-md-6">
+        <div id="payers-chart" style="width: 100%;height:400px"></div>
+      </div>
+      <div class="col-md-6">
+        <div class="table-responsive" style="height: 400px;">
+          <table class="table table-striped table-bordered" id="table">
+            <thead>
+              <tr>
+                <th>S.No</th>
+                <th>Payer</th>
+                <th>Amount</th>
+                <th>Percentage</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for payer in payers_report %}
+              <tr>
+                <td>{{loop.index}}</td>
+                <td>{{ payer["name"] | title }}</td>
+                <td>{{ payer["amount"] | rupees }}</td>
+                <td>{{ payer["percent_amount"] | percent }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+            <tfoot>
+              <tr>
+                <th></th>
+                <th>Total</th>
+                <th>{{ payers_report | sum(attribute="amount") | rupees }}</th>
+                <th>{{ payers_report | sum(attribute="percent_amount") | percent}}</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock main %}
+{% block script %}
+{% if payers_report %}
+<script>
+  var payers_chart_data = {{ payers_report | tojson }};
+  load_payers_chart(payers_chart_data);
+</script>
+{% endif %}
+{% endblock script %}

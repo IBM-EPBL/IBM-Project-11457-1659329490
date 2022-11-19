@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+
+{% block title %}Add Expenses{% endblock title %}
+{% block styles %}
+<style>
+  .form-group label {
+    font-size: 15px !important;
+    font-weight: 500;
+  }
+</style>
+{% endblock styles %}
+
+
+
+{% block main %}
+
+<div class="grid-margin stretch-card">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Add Payer</h4>
+      <p class="card-description">
+        Add Payer for your budget
+      </p>
+      <form class="forms-sample" method="POST" action="/payers/add">
+
+        <div class="form-group">
+          <label for="payer">Payer</label>
+          <input type="text" class="form-control" id="payer" name="name" placeholder="Payer">
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{% endblock main %}
+
+
+{% block script %} {% endblock script %}

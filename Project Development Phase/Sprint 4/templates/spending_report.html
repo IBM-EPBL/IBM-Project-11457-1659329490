@@ -1,0 +1,65 @@
+{% extends 'layout.html' %} {% block title %}Spendings Report{% endblock title %}
+{% block styles %}
+<style>
+  .table thead th,
+  .table tbody td,
+  .table tfoot td {
+    padding: 15px 8px 15px 8px;
+  }
+</style>
+{% endblock styles %} {% block main %}
+
+<div class="card row p-5">
+  <h4>Spending Report</h4>
+  {% if spending_trends_chart %}
+  <div id="spendings-chart" style="width:100%;height: 500px"></div>
+  {% else %}
+  <span class="my-5">Create expenses to see chart</span>
+  {% endif %}
+
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered" id="table">
+      <thead>
+        <tr>
+          <th>Month</th>
+          {% for category in spending_trends_table["January"] %}
+          <th>{{ category["name"] }}</th>
+          {% endfor %}
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for month, expenses in spending_trends_table.items() %}
+        <tr>
+          <td>{{ month }}</td>
+          {% for expense in expenses %} {% if expense["amount"] == 0 %}
+          <td>-</td>
+          {% else %}
+          <td>{{ expense["amount"] | rupees }}</td>
+          {% endif %} {% endfor %}
+          <td>{{ expenses | sum(attribute='amount') | rupees }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Total</td>
+          {% for category in categories %}
+          <td>{{ category["amount"] | rupees }}</td>
+          {% endfor %}
+          <td>{{ categories | sum(attribute='amount') | rupees }}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+{% endblock main %}
+{% block script %}
+{% if spending_trends_chart %}
+<script>
+  var trend_chart_data = {{ spending_trends_chart | tojson }};
+  load_category_trend(trend_chart_data);
+</script>
+{% endif %}
+{% endblock script %}

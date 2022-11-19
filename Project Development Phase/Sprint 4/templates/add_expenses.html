@@ -1,0 +1,79 @@
+{% extends 'layout.html' %}
+
+{% block title %}Add Expenses{% endblock title %}
+{% block styles %}
+<style>
+  .form-control {
+    height: 44px !important;
+  }
+</style>
+{% endblock styles %}
+
+
+
+{% block main %}
+
+<div class="grid-margin stretch-card">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Add Expense</h4>
+      <p class="card-description">
+        Enter details for the Expense
+      </p>
+      <form class="forms-sample" action="/expenses/add" method="POST">
+        <div class="form-group me-0">
+          <label for="payer">Payer</label>
+          <select class="select2 js-states form-control" id="payer" name="payer" required>
+            {% for payer in payers %}
+            <option value="{{ payer['id'] }}">{{ payer['name'] }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group me-0">
+          <label for="category">Category</label>
+          <select class="select2 js-states form-control" id="category" name="category" required>
+            {% for category in categories %}
+            <option value="{{ category['id'] }}">{{ category['name'] }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="date">Date</label>
+          <input type="date" class="form-control" id="date" value="{{ date }}" max="{{ date }}" name="date" required>
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <input type="text" class="form-control" id="description" placeholder="Description" name="description"
+            required>
+        </div>
+        <div class="form-group me-0">
+          <label for="payer">Budgets</label>
+          <select class="select2 js-states form-control" id="budget" name="budget" required>
+            <option value="-1">None</option>
+            {% for budget in budgets %}
+            <option value="{{ budget['id'] }}">{{ budget['name'] }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="amount">Amount</label>
+          <input type="number" class="form-control" id="amount" placeholder="{{0 | rupees}}" name="amount" required>
+        </div>
+        <button type="submit" class="btn btn-primary me-2">Save</button>
+        <button type="clear" class="btn btn-light">Clear</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{% endblock main %}
+
+
+{% block script %}
+<script>
+  $(document).ready(function () {
+    $(".select2").select2();
+  });
+</script>
+{% endblock script %}

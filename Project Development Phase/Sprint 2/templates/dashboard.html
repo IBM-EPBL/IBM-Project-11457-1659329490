@@ -1,0 +1,423 @@
+{% extends 'layout.html' %}
+
+{% block title %}Dashboard{% endblock title %}
+
+{% block styles %}
+<style>
+  .modal-title {
+    font-size: 18px !important;
+  }
+
+  .form-group label {
+    font-size: 14px !important;
+  }
+
+  .btn {
+    font-size: 15px !important;
+    font-weight: 600 !important;
+  }
+</style>
+{% endblock styles %}
+
+{% block main %}
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="home-tab">
+      <div class="tab-content tab-content-basic">
+        <div class="row">
+          <div class="col-md-4 col-sm-8">
+            <button type="button" class="btn btn-info text-white mb-4" data-toggle="modal"
+              data-target="#exampleModal">Quick Expense</button>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h6 class="modal-title" id="exampleModalLabel">Add Expense</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form method="POST" action="/dashboard" autocomplete="off">
+                      <div class="form-group row">
+                        <label for="inputDescription" class="col-sm-2 col-form-label">Description</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="inputDescription" placeholder="Description"
+                            name='description' required>
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="inputCategory" class="col-sm-2 col-form-label">Category</label>
+                        <div class="col-sm-10">
+                          <select class="form-control" id="inputCategory" name='category' required>
+                            {% for category in categories %}
+                            <option value="{{ category['id'] }}">{{ category['name'] }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="inputDate" class="col-sm-2 col-form-label">Date</label>
+                        <div class="col-sm-10">
+                          <input type="date" class="form-control" id="inputDate" value="{{ date }}" name="date"
+                            required>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="inputPayer" class="col-sm-2 col-form-label">Payer</label>
+                        <div class="col-sm-10">
+                          <select class="form-control" id="inputPayer" name="payer" required>
+                            {% for payer in payers %}
+                            <option value="{{ payer['id'] }}">{{ payer['name'] }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="inputBudget" class="col-sm-2 col-form-label">Budget</label>
+                        <div class="col-sm-10">
+                          <select class="form-control" id="inputBudget" name="budget" required>
+                            <option value=-1>None</option>
+                            {% for budget in budgets %}
+                            <option value="{{ budget['id'] }}">{{ budget['name'] }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="inputAmount" class="col-sm-2 col-form-label">Amount</label>
+                        <div class="col-sm-10">
+                          <input type="number" class="form-control" id="inputAmount" placeholder="{{0|rupees}}"
+                            name='amount' min="1" max="100000" required>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success text-white">Save Expense</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 col-lg-3 grid-margin stretch-card">
+            <div class="card bg-primary card-rounded pb-4">
+              <div class="card-body pb-0">
+                <h4 class="card-title card-title-dash text-white mb-4">
+                  Remaining Income
+                </h4>
+                <h2 class="text-info">{{remaining_income | rupees}}</h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 col-lg-3 grid-margin stretch-card">
+            <div class="card bg-primary card-rounded pb-4">
+              <div class="card-body pb-0">
+                <h4 class="card-title card-title-dash text-white mb-4">
+                  {{ date[:4] }} Expense
+                </h4>
+
+                {% if expenses_year %}
+                <h2 class="text-info">{{expenses_year | rupees}}</h2>
+                {% else %}
+                <p>You have no expenses yet.</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 col-lg-3 grid-margin stretch-card">
+            <div class="card bg-primary card-rounded pb-4">
+              <div class="card-body pb-0">
+                <h4 class="card-title card-title-dash text-white mb-4">
+                  Monthly Expenses
+                </h4>
+                {% if expenses_month %}
+                <h2 class="text-info">{{ expenses_month | rupees }}</h2>
+                {% else %}
+                <p>You have no expenses yet.</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 col-lg-3 grid-margin stretch-card">
+            <div class="card bg-primary card-rounded pb-4">
+              <div class="card-body pb-0">
+                <h4 class="card-title card-title-dash text-white mb-4">
+                  Weekly Expenses
+                </h4>
+                {% if expenses_week %}
+
+                <h2 class="text-info">{{ expenses_week | rupees }}</h2>
+                {% else %}
+                <p>You have no expenses yet.</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview">
+          <!-- daily spendings -->
+          <div class="row">
+            <div class="col-lg-12 d-flex flex-column">
+              <div class="row flex-grow">
+                <div class="col-12 col-lg-4 col-lg-12 grid-margin stretch-card">
+                  <div class="card card-rounded">
+                    <div class="card-body">
+                      <div class="d-sm-flex justify-content-between align-items-start">
+                        <div>
+                          <h4 class="card-title card-title-dash">
+                            Weekly expense comparision
+                          </h4>
+                        </div>
+                      </div>
+
+                      {% if spending_week%}
+                      <div id="weekly-chart" style="width: 100%; height: 430px"></div>
+                      {% else %}
+                      <span>Make expenses to see the chart</span>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end daily spendings -->
+
+          <!-- table -->
+          <div class="row flex-grow">
+            <div class="col-12 grid-margin stretch-card">
+              <div class="card card-rounded">
+                <div class="card-body">
+                  <div class="d-sm-flex justify-content-between align-items-start">
+                    <div>
+                      <h4 class="card-title card-title-dash">
+                        Last 5 Expenses
+                      </h4>
+                      {% if expenses_last5 %}
+                      <p class="card-subtitle card-subtitle-dash">
+                        <a href="/expenses/view">View all Expenses</a>
+                      </p>
+                      {% endif %}
+                    </div>
+                  </div>
+
+                  {% if expenses_last5 %}
+                  <div class="table-responsive mt-1">
+                    <table class="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                        <tr>
+                          <th>Description</th>
+                          <th>Category</th>
+                          <th>Date</th>
+                          <th>Payer</th>
+                          <th>Budget</th>
+                          <th>Amount</th>
+                        </tr>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for expense in expenses_last5 %}
+                        <tr>
+                          <td>{{ expense['description'] }}</td>
+                          <td>{{ expense['category'] }}</td>
+                          <td>{{ expense['date'] }}</td>
+                          <td>{{ expense['payer'] }}</td>
+                          <td>{{ expense['budget'] }}</td>
+                          <td>{{ expense['amount'] | rupees }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                  {% else %}
+                  <span>Make expenses to see the table</span>
+                  {% endif %}
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- end - table  -->
+
+          <!-- Budget -->
+          <h3 class="card-title card-title-dash mb-3">Budgets</h3>
+          {% if not budgets_report %}
+          <div class="row card card-rounded m-1 mb-4">
+            <div class="card-body">
+              <span>Create budgets to view here</span>
+            </div>
+          </div>
+          {% endif %}
+          <div class="row flex-grow">
+
+
+            {% for budget in budgets_report %}
+
+            <div class="col-3 grid-margin stretch-card">
+              <div class="card card-rounded">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <h4 class="card-title card-title-dash">{{budget['name'] | title}}</h4>
+                      <p class="card-description">
+                        Budgeted: <code>{{budget['amount'] | rupees}}</code>
+                      </p>
+                      <div id="budget-chart-{{budget['id']}}" style="width: 200px; height:200px"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {% endfor %}
+          </div>
+          <!-- end budget -->
+
+
+          <!-- spending habits -->
+          <div class="row">
+            <div class="col-lg-12 d-flex flex-column">
+              <div class="row flex-grow">
+                <div class="col-12 col-lg-4 col-lg-12 grid-margin stretch-card">
+                  <div class="card card-rounded">
+                    <div class="card-body">
+                      <div class="d-sm-flex justify-content-between align-items-start">
+                        <div>
+                          <h4 class="card-title card-title-dash">
+                            Spending Habits
+                          </h4>
+
+                        </div>
+
+                      </div>
+
+                      {% if expenses_year %}
+                      <div id="spendings-chart" class="mt-5" style="width: 100%;height: 410px">
+                        {% else %}
+                        <span>Make expenses to see the chart</span>
+                        {% endif %}
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end spening habits -->
+
+          <!-- monthly spendings -->
+          <div class="row">
+            <div class="col-lg-12 d-flex flex-column">
+              <div class="row flex-grow">
+                <div class="col-12 col-lg-4 col-lg-12 grid-margin stretch-card">
+                  <div class="card card-rounded">
+                    <div class="card-body">
+                      <div class="d-sm-flex justify-content-between align-items-start">
+                        <div>
+                          <h4 class="card-title card-title-dash">
+                            Monthly Spendings
+                          </h4>
+                        </div>
+                      </div>
+                      {% if expenses_year %}
+                      <div id="monthly-chart" style="width: 100%;height: 430px">
+                        {% else %}
+                        <span>Make expenses to see the chart</span>
+                        {% endif %}
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end monthly spendings -->
+
+          <!-- weekly & payers spendings -->
+          <div class="row">
+            <div class="col-lg-6 d-flex flex-column">
+              <div class="row flex-grow">
+                <div class="col-12 col-lg-4 col-lg-12 grid-margin stretch-card">
+                  <div class="card card-rounded">
+                    <div class="card-body">
+                      <div class="d-sm-flex justify-content-between align-items-start">
+                        <div>
+                          <h4 class="card-title card-title-dash">
+                            Payers Chart
+                          </h4>
+                        </div>
+
+                      </div>
+                      {% if payers_chart%}
+                      <div id="payers-chart" class="m-auto" style="height: 430px; width: 100%">
+                        {% else %}
+                        <span>Make expenses to see the chart</span>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+          <!-- end weekly & payers spendings -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock main %}
+
+{% block script %}
+{% if budgets_report %}
+<script>
+  var budget_chart_data = {{ budgets_report | tojson }};
+  load_budget_chart(budget_chart_data);
+</script>
+{% endif %}
+
+{% if spending_week %}
+<script>
+  var weekly_chart_data = {{ spending_week | tojson }};
+  load_weekly_chart(weekly_chart_data);
+</script>
+{% endif %}
+
+{% if spending_month %}
+<script>
+  var monthly_chart_data = {{ spending_month | tojson }};
+  load_monthly_chart(monthly_chart_data);
+</script>
+{% endif %}
+
+{% if spending_trends %}
+<script>
+  var trend_chart_data = {{ spending_trends | tojson }};
+  load_category_trend(trend_chart_data);
+</script>
+{% endif %}
+
+{% if payers_chart %}
+<script>
+  var payer_chart_data = {{ payers_chart | tojson }};
+  load_payers_chart(payer_chart_data);
+</script>
+{% endif %}
+{% endblock script %}

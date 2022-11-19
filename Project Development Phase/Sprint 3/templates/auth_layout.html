@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Login/Register Page</title>
+    <link rel="stylesheet" href="/static/css/vendor.bundle.base.css" />
+    <link rel="shortcut icon" href="/static/images/favicon.png" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+    {% block styles %} {% endblock styles %}
+</head>
+
+<body>
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper full-page-wrapper">
+            <div class="content-wrapper d-flex align-items-center auth px-0">
+                <div class="row w-100 mx-0">
+                    <div class="col-lg-4 mx-auto">
+                        <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+                            <div class="brand-logo">
+                                <h2>Money</h2>
+                            </div>
+                            {% block main %}{% endblock main %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+<script>
+
+    let msgs = {{ get_flashed_messages(category_filter = ["message"]) | tojson }}
+    let errors = {{ get_flashed_messages(category_filter = ["error"]) | tojson }}
+
+    msgs.forEach(msg => {
+        Toastify({
+            text: msg,
+            duration: 5000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+            },
+        }).showToast()
+    })
+
+
+    errors.forEach(error => {
+        Toastify({
+            text: error,
+            duration: 5000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+                background: "linear-gradient(to right, #93291E,#ED213A)",
+            },
+        }).showToast()
+    })
+</script>
+
+</html>
