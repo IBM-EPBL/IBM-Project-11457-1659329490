@@ -14,9 +14,10 @@ spec:
     spec:
       containers:
         - name: expense-tracker-flask
-          image:
+          image: icr.io/expense_tracker_flask/expense_tracker
           ports:
             - containerPort: 5000
+
 ---
 apiVersion: v1
 kind: Service
