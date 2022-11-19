@@ -120,7 +120,8 @@
   $(document).ready(function () {
 
     // prettier-ignore
-    let unbudgeted_amount = {{ unbudgeted }}
+    let unbudgeted_amount = {{ unbudgeted }
+  }
     let budget_amount = 0;
 
   function update_split_amounts() {
@@ -175,37 +176,49 @@
   }
 
 
-  // validate on submit
-  $('#form').on('submit', function () {
-    console.log(this)
-    let categories_selected = [];
-    $('.category-check').each(function () {
-      if (this.checked) {
-        let percent = $(`#split-${this.id}-input`).val()
-        let category = { "id": this.id, "percent": percent / 100 }
-        categories_selected.push(category)
-      }
-    });
+  $(document).ready(function () {
 
-    if (categories_selected.length === 0) {
-      show_toast("Please select atleast one category")
-      return false;
-    }
+    // prettier-ignore
+    let unbudgeted_amount = {{ unbudgeted }
+  }
+    let budget_amount = 0;
 
-    const cum_percentage = categories_selected.reduce(function (prev, cur) { return prev + cur.percent }, 0)
+  function update_split_amounts() {
+    $('.category-split').each(function () {
+      let percent = $(`#${this.id}-input`).val();
+      let amount = Math.ceil(budget_amount * (percent / 100))
+      let monthly = Math.floor(amount / 12)
+      let weekly = Math.floor(amount / 52)
 
-    console.log(cum_percentage)
+      $(`#${this.id}-amount`).text("₹" + amount)
+      $(`#${this.id}-monthly`).text("₹" + monthly)
+      $(`#${this.id}-weekly`).text("₹" + weekly)
+    })
+  }
 
-    if (cum_percentage !== 1) {
-      show_toast("Cumulative percentage isn't equal to 100");
-      return false;
-    }
-    // console.log(this.request.body)
-    $('#form').append(`<input type="hidden" name="categories" value=${JSON.stringify(categories_selected)} /> `);
-    // console.log(this)
-    return true;
+  update_split_amounts()
+  // make invisible
+  $('.category-split').css('display', 'none');
+
+  // make invisible split visible
+  $('.category-check').change(function () {
+    $(`#split-${this.id}`).css('display', this.checked ? '' : 'none');
+  });
+
+  // update range value to text
+  $('.category-split-input').change(function () {
+    $(`#${this.id}-value`).text(this.value + "%")
+    update_split_amounts();
   })
 
+  // update budget
+  $('#budget').change(function () {
+    budget_amount = this.value;
+    $("#remaining-budget").text("₹" + (unbudgeted_amount - budget_amount))
+
+    update_split_amounts()
+
+  })
   });
 </script>
 

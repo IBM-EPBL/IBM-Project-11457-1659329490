@@ -80,3 +80,5 @@ INSERT INTO categories(name) VALUES ('Shopping');
 INSERT INTO categories(name) VALUES ('Travel');
 INSERT INTO categories(name) VALUES ('Entertainment');
 INSERT INTO categories(name) VALUES ('Other');
+
+

@@ -1,15 +1,17 @@
 import os
 from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
+from sendgrid.helpers.mail import Email, To, Content, Mail
+import sendgrid
 import dotenv
+from flask import flash
 
 dotenv.load_dotenv()
 
 
-def sent_mail(subject, content):
+def sent_mail(email, subject, content):
     message = Mail(
-        from_email="737819CSR154@smartinternz.com",
-        to_emails="raveencr2@gmail.com",
+        from_email="raveencr2@gmail.com",
+        to_emails=email,
         subject=subject,
         html_content=content,
     )
@@ -19,5 +21,7 @@ def sent_mail(subject, content):
         print(response.status_code)
         print(response.body)
         print(response.headers)
+        flash("Mail sent successfully")
     except Exception as e:
         print(e)
+        flash("Can't sent mail", "error")

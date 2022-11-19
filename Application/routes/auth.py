@@ -1,6 +1,6 @@
 import os
 from flask import Blueprint, redirect, render_template, request, session, flash
-from utils import account_utils
+from utils import account_utils, mail_utils
 from werkzeug.security import check_password_hash
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -31,6 +31,11 @@ def register():
         session["user_id"] = user_id
         session["username"] = username
 
+        mail_utils.sent_mail(
+            email,
+            "Welcome to Expense Tracker",
+            f"Hello ${username}, Welcome to Expense tracker. Enjoy your time here.",
+        )
         flash("User registeration successful.")
         return redirect("/")
 
